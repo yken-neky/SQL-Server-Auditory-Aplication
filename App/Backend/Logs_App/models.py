@@ -14,3 +14,10 @@ class ConnectionLog(models.Model):
         return f"{self.user.username} - {self.status} at {self.timestamp}"
 
 # Tabla para almacenar auditorias completas y parciales 
+class AuditoryLog(models.Model): 
+    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    control_results = models.JSONField() 
+    timestamp = models.DateTimeField(auto_now_add=True) 
+    
+    def __str__(self): 
+        return f"AuditoryLog {self.id} for user {self.user.username} on {self.timestamp}"

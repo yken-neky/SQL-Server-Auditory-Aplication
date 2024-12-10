@@ -7,3 +7,9 @@ class ConnectionLogAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'server', 'db_user')
 
 admin.site.register(ConnectionLog, ConnectionLogAdmin)
+
+class AuditoryLogAdmin(admin.ModelAdmin):
+    list_display = ('user', 'timestamp', 'control_results')  
+    search_fields = ('user__username',)
+
+admin.site.register(AuditoryLog, AuditoryLogAdmin)
