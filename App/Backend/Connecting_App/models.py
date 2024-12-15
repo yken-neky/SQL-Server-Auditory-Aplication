@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from Users_App.models import CustomUser
 # Create your models here.
 
 class ActiveConnection(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     driver = models.CharField(max_length=255)
     server = models.CharField(max_length=255)
     db_user = models.CharField(max_length=255)

@@ -1,11 +1,11 @@
-from django.contrib.auth.models import User
+from Users_App.models import CustomUser
 from rest_framework import serializers
 from .models import ActiveConnection
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 
 class ActiveConnectionSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), default=serializers.CurrentUserDefault())
+    user = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), default=serializers.CurrentUserDefault())
 
     class Meta:
         model = ActiveConnection

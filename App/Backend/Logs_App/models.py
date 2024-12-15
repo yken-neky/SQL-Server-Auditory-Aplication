@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from Users_App.models import CustomUser
 # Create your models here.
 
 class ConnectionLog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     driver = models.CharField(max_length=255)
     server = models.CharField(max_length=255)
     db_user = models.CharField(max_length=255)
@@ -15,7 +15,7 @@ class ConnectionLog(models.Model):
 
 # Tabla para almacenar auditorias completas y parciales 
 class AuditoryLog(models.Model): 
-    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE) 
     control_results = models.JSONField() 
     timestamp = models.DateTimeField(auto_now_add=True) 
     

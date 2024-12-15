@@ -1,9 +1,17 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import UserViewSet
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
-    path('login/', views.login, name = 'login'),
-    path('register/', views.register, name = 'register'),
-    path('profile/', views.profile, name = 'profile'),
-    path('logout/', views.logout_view, name = 'logout'),
+    path('', include(router.urls)),
 ]
+
+
+# UserViewSet:
+#   POST /users/register/ para registrar usuarios.
+#   POST /users/login/ para iniciar sesión.
+#   GET /users/profile/ para obtener el perfil del usuario autenticado.
+#   POST /users/logout/ para cerrar sesión.
