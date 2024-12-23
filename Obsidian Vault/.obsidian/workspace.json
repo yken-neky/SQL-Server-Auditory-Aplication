@@ -1,0 +1,187 @@
+{
+  "main": {
+    "id": "a901ed95e05eb638",
+    "type": "split",
+    "children": [
+      {
+        "id": "f599ba6e71582f34",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bddf4bf8acb8edbd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Dockerizar Base de Datos.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Dockerizar Base de Datos"
+            }
+          },
+          {
+            "id": "f2092805cf365b1c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Registro de cambios.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Registro de cambios"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4fa653062e41bcd8",
+    "type": "split",
+    "children": [
+      {
+        "id": "c3e2e030c7df6195",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ffadaac0207393d3",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "90c7aeced9b91b35",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "c5774a4ce0d5c287",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "fdc0feab0ba215f0",
+    "type": "split",
+    "children": [
+      {
+        "id": "d7d84f339ea447b9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9d7c6b9aaea39da9",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Registro de cambios.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes de Registro de cambios"
+            }
+          },
+          {
+            "id": "415b84677502feb5",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Registro de cambios.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes de Registro de cambios"
+            }
+          },
+          {
+            "id": "6ab946b886f650a1",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "4a34a51d4a75906b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Registro de cambios.md"
+              },
+              "icon": "lucide-list",
+              "title": "Esquema de Registro de cambios"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false
+    }
+  },
+  "active": "f2092805cf365b1c",
+  "lastOpenFiles": [
+    "Detalles de Versión - 0.4.md",
+    "Registro de cambios.md",
+    "Dockerizar Base de Datos.md",
+    "desktop.ini"
+  ]
+}

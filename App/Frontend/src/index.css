@@ -3,6 +3,39 @@
 @tailwind utilities;
 
 body {
-  background: #202020;
-  color: white;
+  /* background-color: #95e6e7cb; */
+  background-color: #9cacce;
+  /* background-color: #5570aa; */
+  color: black;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-item {
+  color: gray;
+  font-weight: normal;
+}
+
+.menu-item.active {
+  color: darkblue;
+  font-weight: bold;
+}
+
+.menu-item.mssql {
+  color: rgb(182, 7, 7);
+  font-weight: bold;
+}
+
+#mssql {
+  background: rgb(161,158,213);
+  background: linear-gradient(90deg, rgba(161,158,213,1) 0%, rgba(212,126,69,1) 73%, rgba(207,69,69,1) 100%);
+}
+
+#login {
+  background: rgb(167,164,217);
+  background: linear-gradient(345deg, rgba(167,164,217,1) 0%, rgba(159,197,218,1) 51%, rgb(84, 96, 235) 100%);
 }

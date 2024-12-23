@@ -13,5 +13,5 @@ urlpatterns = [
 # UserViewSet:
 #   POST /users/register/ para registrar usuarios.
 #   POST /users/login/ para iniciar sesión.
-#   GET /users/profile/ para obtener el perfil del usuario autenticado.
+#   GET  /users/profile/ para obtener el perfil del usuario autenticado.
 #   POST /users/logout/ para cerrar sesión.
