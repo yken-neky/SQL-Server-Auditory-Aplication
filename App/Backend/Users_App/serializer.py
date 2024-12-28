@@ -8,10 +8,11 @@ class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     first_name = serializers.CharField(required=False, allow_blank=True)
     last_name = serializers.CharField(required=False, allow_blank=True)
+    role = serializers.CharField(required=False)
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'created_at', 'last_login', 'password']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'created_at', 'last_login', 'password', 'role']
 
     def validate(self, data):
         password = data.get('password')

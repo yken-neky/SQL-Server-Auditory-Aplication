@@ -38,13 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', 'rest_framework.authtoken',
-    'corsheaders',
+    'corsheaders', 'coreapi',
     'LandingP_App',
     'Connecting_App',
     'InsideDB_App',
     'Logs_App',
     'Users_App',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # Autenticación con tokens
+        'rest_framework.authentication.SessionAuthentication',  # Autenticación con sesiones
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

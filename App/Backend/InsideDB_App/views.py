@@ -6,18 +6,31 @@ from rest_framework import status, generics
 from Connecting_App.utils import *
 from Logs_App.models import *
 from threading import Lock
+from Users_App.permissions import IsAdmin, IsClient
 from .models import *
 from .utils import *
 from .serializer import *
 import pyodbc
 
-class ControlsInformationListCreate(generics.ListCreateAPIView):
+class ControlsInformationList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Controls_Information.objects.all()
     serializer_class = Controls_Information_Serializer
 
-class ControlInformationDetail(generics.RetrieveUpdateDestroyAPIView):
+class ControlInformationDetail(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Controls_Information.objects.all()
     serializer_class = Controls_Information_Serializer
+
+class ControlScriptsList(generics.ListAPIView):
+    permission_classes = [IsAdmin]
+    queryset = Controls_Scripts.objects.all()
+    serializer_class = Controls_Scripts_Serializer
+
+class ControlScriptDetail(generics.RetrieveAPIView):
+    permission_classes = [IsAdmin]
+    queryset = Controls_Scripts.objects.all()
+    serializer_class = Controls_Scripts_Serializer
 
 # ------------------------------------------------------------------------------- #
 
@@ -25,7 +38,7 @@ connection_lock = Lock()
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsClient])
 def execute_query(request, id=None):
     # Llamar a la función auxiliar para obtener la conexión a la base de datos 
     conexion_resultado = obtener_conexion_activa_db(request.user, connection_lock) 

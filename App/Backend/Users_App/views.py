@@ -1,13 +1,13 @@
 from django.contrib.auth import logout as django_logout
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import viewsets, status
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 from .serializer import UserSerializer
 from .models import CustomUser
-from rest_framework.authentication import TokenAuthentication
-from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
 class UserViewSet(viewsets.ViewSet):

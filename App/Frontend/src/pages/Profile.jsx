@@ -47,6 +47,7 @@ export function UserProfile() {
         <>
           <p className='text-xl'><span className='font-bold text-xl'>Username: </span>{userData.username}</p>
           <p className='text-xl'><span className='font-bold text-xl'>Email: </span>{userData.email}</p>
+          <p className='text-xl'><span className='font-bold text-xl'>Rol: </span>{userData.role}</p>
         </>
         )}
     </div>

@@ -45,6 +45,7 @@
 	  - Realización de controles
 	  - Ver resultado de ejecución de controles
   3.   Manejar posibles errores de autenticación desde el Frontend
+  4.   Corregir Componentes de ruteo para la protección de rutas públicas y privadas para que no entre a la aplicación sin ningún usuario conectado. 
 
 > Backend 
 

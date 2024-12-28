@@ -1,11 +1,12 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter 
+from django.urls import path, include 
 from .views import *
-from . import views
 
-urlpatterns = [
-    path('sql/active-connections/', ActiveConnectionListCreate.as_view(), name='active_connection_list_create'),
-    path('sql/active-connections/<int:pk>/', ActiveConnectionDetail.as_view(), name='active_connection_detail'),
-    # ------------------------------------------------------------------------------------------------------ #
-    path('sql/connect/', views.connect_view, name = 'connect'),
-    path('sql/disconnect/', views.disconnect_view, name='disconnect'),    
+router = DefaultRouter() 
+router.register(r'connections', ConnectionViewSet, basename='connections') 
+
+urlpatterns = [ 
+    path('api/sql_conn/', include(router.urls)), 
+    path('api/sql_conn/admin/active_connections/', ActiveConnectionListCreate.as_view(), name='activeconnection-list-create'), 
+    path('api/sql_conn/admin/active_connections/<int:pk>/', ActiveConnectionDetail.as_view(), name='activeconnection-detail'), 
 ]
