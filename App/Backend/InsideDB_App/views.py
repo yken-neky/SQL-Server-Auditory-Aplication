@@ -39,7 +39,7 @@ connection_lock = Lock()
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated, IsClient])
-def execute_query(request, id=None):
+def execute_query(request):
     # Llamar a la función auxiliar para obtener la conexión a la base de datos 
     conexion_resultado = obtener_conexion_activa_db(request.user, connection_lock) 
     
@@ -48,11 +48,14 @@ def execute_query(request, id=None):
     
     db_connection = conexion_resultado["db_connection"]
 
+    # Obtener los IDs de controles desde los parámetros de la solicitud
+    ids = request.query_params.getlist('ids', None)
+
     try:
-        if id:
-            queries = Controls_Scripts.objects.filter(pk=id)
+        if ids:
+            queries = Controls_Scripts.objects.filter(pk__in=ids)
             if not queries.exists(): 
-                return Response({"status": "not_found", "error": "El control con el ID proporcionado no existe."},status=status.HTTP_404_NOT_FOUND)
+                return Response({"status": "not_found", "error": "Uno o más controles con los IDs proporcionados no existen."}, status=status.HTTP_404_NOT_FOUND)
         else:
             queries = Controls_Scripts.objects.all()
 
@@ -79,7 +82,3 @@ def execute_query(request, id=None):
         return Response({"status": "query_failed", "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except UnboundLocalError as e:
         return Response({"status": "query_failed", "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
-

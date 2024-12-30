@@ -49,14 +49,15 @@ App/Backend/Connection_App/views.py``` se manejan ahora las vistas de conexión 
 
 > Backend 
 
-1.   Terminar de llenar controles de seguridad para SQL Server en la base de datos
-2.   Una vez llena la base de datos, migrar su información a SQL Server
+1.   Manejar peticiones para realizar controles múltiples simultáneamente  
+2.   Terminar de llenar controles de seguridad para SQL Server en la base de datos
+3.   Una vez llena la base de datos, migrar su información a SQL Server
 
 ```
 Tener en cuenta opción de migrar desde ahora el modelo y llenar la base de datos en ese nuevo servidor. 
 
 Tener en cuenta el uso de contenedores de Docker. 
 ```
-3.   Vistas para el panel de administración. || Terminar de implementar. 
+4.   Vistas para el panel de administración. || Terminar de implementar. 
 
 
