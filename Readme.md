@@ -2,7 +2,13 @@
 
 # Autor: Yan Luis González Palomo
 
-# Instalación e inicio 
+# Obsidian Vault 
+
+> [!IMPORTANT]
+> Para mayor manejo de la documentación, instalar Obsidian y abrir la aplicación en la bóveda de este repositorio.
+> Así se tendrá más accesibilidad a la nueva información
+
+---
 
 # Instalación y despliegue
 
