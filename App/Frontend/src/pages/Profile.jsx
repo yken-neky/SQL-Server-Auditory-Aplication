@@ -1,56 +1,43 @@
-import { useEffect, useState } from 'react';
-import { getUserProfile } from '../api/log-reg.api';
-import { useAuth } from '../contexts/AuthContext';
-import Layout from '../pages/Layout/Layout';
+// UserProfile.js
+import { useUser } from '../contexts/UserContext';
 
 export function UserProfile() {
-  const { authToken } = useAuth();
-  const [userData, setUserData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await getUserProfile();
-        setUserData(response.data);
-      } catch {
-        setError('Failed to fetch user profile');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (authToken) {
-      fetchUserProfile();
-    } 
-  }, [authToken]);
-
-  if (loading) {
-    return (<Layout>
-              <div>Loading...</div>
-            </Layout>)
-  }
-
-  if (error) {
-    return (<Layout>
-              <div>{error}</div>
-            </Layout>)
-  }
+  const userData = useUser();
 
   return (
-    <Layout>
-      <div>
-      <h1 className='font-bold text-3xl mb-9'>User Profile</h1>
-      <hr/>
+    <div>
+      <div className="px-4 sm:px-0">
+        <h3 className="text-base/5 font-bold text-gray-900">Perfil de Usuario</h3>
+        <p className="mt-1 max-w-2xl text-sm/6 text-gray-500">Información personal</p>
+      </div>
       {userData && (
         <>
-          <p className='text-xl'><span className='font-bold text-xl'>Username: </span>{userData.username}</p>
-          <p className='text-xl'><span className='font-bold text-xl'>Email: </span>{userData.email}</p>
-          <p className='text-xl'><span className='font-bold text-xl'>Rol: </span>{userData.role}</p>
-        </>
-        )}
+        <div className="mt-4 border-t border-gray-100">
+          <dl className="divide-y divide-gray-100">
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm/6 font-bold text-gray-900">Usuario</dt>
+              <dd className="mt-1 text-sm/6 text-gray-800 sm:col-span-2 sm:mt-0">{userData.username}</dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm/6 font-bold text-gray-900">Primer Nombre</dt>
+              <dd className="mt-1 text-sm/6 text-gray-800 sm:col-span-2 sm:mt-0">{userData.first_name}</dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm/6 font-bold text-gray-900">Segundo Nombre</dt>
+              <dd className="mt-1 text-sm/6 text-gray-800 sm:col-span-2 sm:mt-0">{userData.last_name}</dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm/6 font-bold text-gray-900">Correo Electrónico</dt>
+              <dd className="mt-1 text-sm/6 text-gray-800 sm:col-span-2 sm:mt-0">{userData.email}</dd>
+            </div>
+          </dl>
+        </div>
+        </>)}
+        <div className="flex flex-col lg:flex-row justify-center items-centerspace-y-4 lg:space-y-0 lg:space-x-4">
+          <button className="btn">Editar Perfil</button>
+          <button className="btn">Cambiar Contraseña</button>
+          <button className="btn">Eliminar Perfil</button>
+        </div>
     </div>
-    </Layout>
   )
 }

@@ -69,16 +69,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Detalles de Versión - 0.5.1.md",
+                "file": "Registro de cambios.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Detalles de Versión - 0.5.1"
+              "title": "Registro de cambios"
+            }
+          },
+          {
+            "id": "ed20d29346590071",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Vista gráfica"
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -219,11 +229,12 @@
       "command-palette:Abrir paleta de comandos": false
     }
   },
-  "active": "0128e976043ce5d3",
+  "active": "ed20d29346590071",
   "lastOpenFiles": [
-    "Detalles de Versión - 0.5.md",
+    "Detalles de Versión - 0.6.md",
     "Registro de cambios.md",
     "Detalles de Versión - 0.5.1.md",
+    "Detalles de Versión - 0.5.md",
     "Detalles de Versión - 0.5.5.md",
     "Scripts de controles/Capítulo 2.md",
     "Componente de React para los controles dinámicos.md",

@@ -22,10 +22,10 @@ LogRegAPI.interceptors.request.use(
   }
 );
 
-export const LoginUser = (data) => LogRegAPI.post('/users/login/', data);
-export const RegisterUser = (data) => LogRegAPI.post('/users/register/', data);
-export const getUserProfile = () => LogRegAPI.get('/users/profile/');
-export const LogOutUser = () => LogRegAPI.post('/users/logout/');
+export const LoginUser = (data) => LogRegAPI.post('/api/users/login/', data);
+export const RegisterUser = (data) => LogRegAPI.post('/api/users/register/', data);
+export const getUserProfile = () => LogRegAPI.get('/api/users/profile/');
+export const LogOutUser = () => LogRegAPI.post('/api/users/logout/');
 
 export const ConnectToDB = (data) => LogRegAPI.post('sql/connect/', data, { withCredentials: true });
 export const LogOutDB = () => LogRegAPI.post('sql/disconnect/');

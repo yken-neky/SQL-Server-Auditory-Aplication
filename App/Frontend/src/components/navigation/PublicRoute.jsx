@@ -5,7 +5,7 @@ const PublicRoute = ({ children }) => {
   const { authToken } = useAuth();
 
   if (authToken) {
-    return <Navigate to="/profile" />;
+    return <Navigate to="/Dashboard" />;
   }
 
   return children;
