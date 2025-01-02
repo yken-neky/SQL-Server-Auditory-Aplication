@@ -15,3 +15,6 @@ urlpatterns = [
 #   POST /users/login/ para iniciar sesión.
 #   GET  /users/profile/ para obtener el perfil del usuario autenticado.
 #   POST /users/logout/ para cerrar sesión.
+#   PUT /users/update_profile/ para editar perfil de usuario.
+#   POST /users/change_password/ para cambiar contraseña.
+#   POST /users/deactivate_account/ para desactivar la cuenta autenticada.

@@ -29,3 +29,8 @@ export const LogOutUser = () => LogRegAPI.post('/api/users/logout/');
 
 export const ConnectToDB = (data) => LogRegAPI.post('sql/connect/', data, { withCredentials: true });
 export const LogOutDB = () => LogRegAPI.post('sql/disconnect/');
+
+// Nuevas funciones
+export const updateUserProfile = (data) => LogRegAPI.put('/api/users/update_profile/', data);
+export const changeUserPassword = (data) => LogRegAPI.post('/api/users/change_password/', data);
+export const deactivateUserAccount = () => LogRegAPI.post('/api/users/deactivate_account/');

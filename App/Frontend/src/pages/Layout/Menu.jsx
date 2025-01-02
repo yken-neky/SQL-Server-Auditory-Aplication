@@ -16,7 +16,7 @@ export function Menu() {
             <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
               <li><Link to="/dashboard"><FcHome className="w-5 h-5"/>Dashboard</Link></li>
               <li><Link to="/profile"><FcBusinessman className="w-5 h-5"/>Mi perfil</Link></li>
-              <li><Link to="/"><FcDataEncryption className="w-5 h-5"/>Auditar SQL Server</Link></li>
+              <li><Link to="/db_login"><FcDataEncryption className="w-5 h-5"/>Auditar SQL Server</Link></li>
             </ul>
           </div>
         </div>

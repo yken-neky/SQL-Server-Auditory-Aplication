@@ -7,7 +7,7 @@ import { useUser } from "../../contexts/UserContext";
 
 export function NavegationBar() {
   const { logout } = useAuth();
-  const userData = useUser();
+  const { user } = useUser();  // Desestructura el objeto user del contexto
 
   const handleLogout = async () => { 
       await LogOutUser();
@@ -22,8 +22,12 @@ export function NavegationBar() {
       </div>
       <div className="flex-none gap-2">
         <div className="form-control text-end">
-          <p className="text-gray-300">{userData.first_name} {userData.last_name}</p>
-          <p className="text-blue-400 font-bold text-xs">{userData.role}</p>
+          {user && (
+            <>
+              <p className="text-gray-300">{user.first_name} {user.last_name}</p>
+              <p className="text-blue-400 font-bold text-xs">{user.role}</p>
+            </>
+          )}
         </div>
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">

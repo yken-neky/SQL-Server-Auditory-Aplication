@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from .serializer import UserSerializer
 from .models import CustomUser
 from django.core.exceptions import ValidationError
+from .permissions import IsAdmin
 
 class UserViewSet(viewsets.ViewSet):
 
@@ -23,13 +24,7 @@ class UserViewSet(viewsets.ViewSet):
 
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
-            user = CustomUser.objects.create_user(
-                username=serializer.validated_data['username'],
-                password=serializer.validated_data['password'],
-                email=serializer.validated_data['email'],
-                first_name=serializer.validated_data.get('first_name', ''),
-                last_name=serializer.validated_data.get('last_name', '')
-            )
+            user = serializer.save()
             token, created = Token.objects.get_or_create(user=user)
             response = Response({'user': serializer.data, 'token': token.key}, status=status.HTTP_201_CREATED)
             response.set_cookie('authToken', token.key, httponly=True, samesite='Lax')
@@ -74,6 +69,65 @@ class UserViewSet(viewsets.ViewSet):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=False, methods=['put'], permission_classes=[IsAuthenticated], authentication_classes=[TokenAuthentication])
+    def update_profile(self, request):
+        user = request.user
+        data = request.data.copy()  # Hacemos una copia de los datos para poder modificar el diccionario
+
+        # Verificar si el usuario tiene permisos de administrador
+        if not IsAdmin().has_permission(request, self):
+            # Si el usuario no es administrador, eliminamos el campo 'role' de los datos
+            data.pop('role', None)
+
+        serializer = UserSerializer(user, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated], authentication_classes=[TokenAuthentication])
+    def change_password(self, request):
+        user = request.user
+        current_password = request.data.get('current_password')
+        new_password = request.data.get('new_password')
+        confirm_password = request.data.get('confirm_password')
+
+        if not current_password or not new_password or not confirm_password: 
+            return Response({"error": "All password fields are required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if new_password != confirm_password:
+            return Response({"error": "New passwords do not match"}, status=status.HTTP_400_BAD_REQUEST)
+
+        print(f"Current Password: {current_password}") 
+        print(f"Hash de la contraseña en la DB: {user.password}")
+
+        if not user.check_password(current_password):
+            return Response({"error": "Current password is incorrect"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            validate_password(new_password)
+        except ValidationError as e:
+            return Response({"error": e.messages}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.set_password(new_password)
+        user.save()
+        return Response({"message": "Password changed successfully"}, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated], authentication_classes=[TokenAuthentication])
+    def deactivate_account(self, request):
+        user = request.user
+        user.is_active = False
+        user.save()
+
+        # Cerrar sesión del usuario automáticamente
+        try:
+            request.user.auth_token.delete()
+            django_logout(request)
+            response = Response({"message": "Account deactivated and logged out successfully"}, status=status.HTTP_200_OK)
+            response.delete_cookie('authToken')
+            return response
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # En Django, el modelo de usuario incluye un campo is_active que es un booleano. 
@@ -82,3 +136,5 @@ class UserViewSet(viewsets.ViewSet):
 # Esto es útil, por ejemplo, cuando quieres desactivar una cuenta sin eliminarla, 
 # o durante un proceso de verificación de cuenta donde el usuario debe 
 # confirmar su dirección de correo electrónico antes de que la cuenta se active.
+
+

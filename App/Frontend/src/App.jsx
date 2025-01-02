@@ -2,13 +2,14 @@
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Dashboard } from './pages/Dashboard';
-import { LoginForm } from './pages/Login';
 import { RegisterForm } from './pages/Register';
 import { UserProfile } from './pages/Profile';
 import ProtectedRoute from './components/navigation/ProtectedRoute';
 import PublicRoute from './components/navigation/PublicRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import Layout from './pages/Layout/Layout';
+import { EditProfileForm } from './components/Profile/EditProfileForm';
+import LoginForm from './pages/Login';
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/login" /> },
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
     element: <ProtectedRoute><Layout /></ProtectedRoute>,
     children: [
       { path: "profile", element: <UserProfile /> },
-      { path: "dashboard", element: <Dashboard /> }
+      { path: "edit_profile", element: <EditProfileForm/> },
+      { path: "dashboard", element: <Dashboard /> },
     ]
   }
 ], {

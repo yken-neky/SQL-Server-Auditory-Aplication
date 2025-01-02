@@ -1,12 +1,11 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { LoginUser } from "../api/log-reg.api";
+import { useAuth } from "../contexts/AuthContext";
 
-import { LoginUser } from '../api/log-reg.api.js';
-import { useAuth } from '../contexts/AuthContext';
-
-export function LoginForm() {
+export default function LoginForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [serverErrors, setServerErrors] = useState({});
   const navigate = useNavigate();
@@ -30,48 +29,40 @@ export function LoginForm() {
   const handleInputChange = () => {
     setServerErrors({}); // Restablecer errores del servidor al actualizar el input
   }
+  
 
   return (
-    <div className='h-screen grid place-items-center' id='login'>
-      <div className='max-w-xl mx-auto bg-gray-200 p-8 rounded-lg'>
-        <div className='grid place-items-center'>
-          <div>
-          <img src="/icon.png" className='mb-1 w-20'/>
-          </div>
-          <div>
-          <p className='font-bold text-xs'>S.H.I.E.L.D.</p>
-          </div>
-        </div>
-        <div className='max-w-xs mx-auto my-3'>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label className='font-bold text-sm'>Usuario:</label>
-              <input type="text" {...register('username', { required: true })} onChange={handleInputChange} 
-                className='bg-slate-300 p-2 rounded-lg block w-full'
-              />
-              {errors.username && <span className='text-sm'>Este campo es requerido</span>}
+    <div className="hero bg-base-200 min-h-screen">
+        <div className="hero-content flex-col lg:flex-row-reverse">
+            <div className="text-center lg:text-left">
+              <h1 className="text-5xl font-bold text-white">Regístrate ahora !</h1>
+              <p className="py-6 text-white">
+              ¿ No tienes cuenta ? Crea una <Link className="link link-primary" to="/register">aquí</Link> y comienza a auditar tu servidor de bases de datos <span className="font-bold">SQL Server.</span>
+              </p>
             </div>
-            <div>
-              <label className='font-bold text-sm'>Contraseña:</label>
-              <input type="password" {...register('password', { required: true })} onChange={handleInputChange} 
-                className='bg-slate-300 p-2 rounded-lg block w-full'
-              />
-              {errors.password && <span className='text-sm'>Este campo es requerido</span>}
+            <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+              <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Usuario</span>
+                  </label>
+                  <input type="text" {...register('username', { required: true })} onChange={handleInputChange} placeholder="usuario" className="input input-bordered" required />
+                  {errors.username && <span className='text-sm'>Este campo es requerido</span>}
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Contraseña</span>
+                  </label>
+                  <input type="password" {...register('password', { required: true })} onChange={handleInputChange} placeholder="contraseña" className="input input-bordered" required />
+                  {errors.password && <span className='text-sm'>Este campo es requerido</span>}
+                </div>
+                {serverErrors.error && <span className='text-red-500 font-semibold font text-sm flex justify-center mt-3'>{serverErrors.error}</span>}
+                <div className="form-control mt-6">
+                  <button className="btn btn-primary">Iniciar Sesión</button>
+                </div>
+              </form>
             </div>
-            <hr className='border-black mt-3'/>
-            <button className="bg-indigo-400 p-2 rounded-lg w-full block mt-3 font-bold text-sm text-white hover:bg-indigo-300" type="submit">Iniciar sesión</button>
-            {serverErrors.error && <span className='text-red-500 font-semibold font text-sm flex justify-center mt-3'>{serverErrors.error}</span>}
-          </form>
-        </div>  
-        <hr className='border-black'/>
-        <div className='flex justify-center mt-3'>
-          <p className='text-sm'>¿ Ya te registraste ? Crea una cuenta aquí </p>
-          <button className="bg-indigo-400 rounded-lg font-bold text-l text-white mx-4 px-2 hover:bg-indigo-300">
-            <Link to = "/register">Register</Link>
-          </button>
         </div>
-      </div>
     </div>
-  );
-};
-
+  )
+}
