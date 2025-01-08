@@ -11,13 +11,15 @@ class ConnectionLog(models.Model):
     status = models.CharField(max_length=50, choices=[('connected', 'Connected'), ('disconnected', 'Disconnected'), ('reconnected', 'Reconnected')])
 
     def __str__(self):
-        return f"{self.user.username} - {self.status} at {self.timestamp}"
+        return f"{self.user.username} - {self.status} on {self.server} at {self.timestamp}"
 
 # Tabla para almacenar auditorias completas y parciales 
 class AuditoryLog(models.Model): 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE) 
     control_results = models.JSONField() 
-    timestamp = models.DateTimeField(auto_now_add=True) 
+    timestamp = models.DateTimeField(auto_now_add=True)
+    server = models.ForeignKey(ConnectionLog, on_delete=models.CASCADE) 
     
     def __str__(self): 
         return f"AuditoryLog {self.id} for user {self.user.username} on {self.timestamp}"
+    

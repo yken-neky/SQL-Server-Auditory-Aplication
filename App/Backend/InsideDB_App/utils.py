@@ -35,4 +35,4 @@ def obtener_conexion_activa_db(user, connection_lock):
         if connection_status["status"] != "connected":
             return {"response": Response({"status": "connection_failed", "error": connection_status["error"]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR), "db_connection": None}
 
-        return {"response": None, "db_connection": connection_status["connection"]}
+        return {"response": None, "db_connection": connection_status["connection"], "active_conn": active_conn}

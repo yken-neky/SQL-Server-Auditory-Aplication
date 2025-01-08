@@ -10,3 +10,4 @@
 | 30/12/2024 | v0.5.1  | [[Detalles de Versión - 0.5.1]] |
 | 31/12/2024 | v0.6    | [[Detalles de Versión - 0.6]]   |
 | 02/01/2025 | v0.6.1  | [[Detalles de Versión - 0.6.1]] |
+| 08/01/2025 | v0.6.2  | [[Detalles de Versión - 0.6.2]] |

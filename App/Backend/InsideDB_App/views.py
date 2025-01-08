@@ -11,24 +11,25 @@ from .models import *
 from .utils import *
 from .serializer import *
 import pyodbc
+from Connecting_App.permissions import HasOnServiceCookie
 
 class ControlsInformationList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasOnServiceCookie]
     queryset = Controls_Information.objects.all()
     serializer_class = Controls_Information_Serializer
 
 class ControlInformationDetail(generics.RetrieveAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasOnServiceCookie]
     queryset = Controls_Information.objects.all()
     serializer_class = Controls_Information_Serializer
 
 class ControlScriptsList(generics.ListAPIView):
-    permission_classes = [IsAdmin]
+    permission_classes = [IsAdmin, HasOnServiceCookie]
     queryset = Controls_Scripts.objects.all()
     serializer_class = Controls_Scripts_Serializer
 
 class ControlScriptDetail(generics.RetrieveAPIView):
-    permission_classes = [IsAdmin]
+    permission_classes = [IsAdmin, HasOnServiceCookie]
     queryset = Controls_Scripts.objects.all()
     serializer_class = Controls_Scripts_Serializer
 
@@ -38,7 +39,7 @@ connection_lock = Lock()
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated, IsClient])
+@permission_classes([IsAuthenticated, IsClient, HasOnServiceCookie])
 def execute_query(request):
     # Llamar a la función auxiliar para obtener la conexión a la base de datos 
     conexion_resultado = obtener_conexion_activa_db(request.user, connection_lock) 
@@ -48,14 +49,14 @@ def execute_query(request):
     
     db_connection = conexion_resultado["db_connection"]
 
-    # Obtener los IDs de controles desde los parámetros de la solicitud
-    ids = request.query_params.getlist('ids', None)
+    # Obtener los índices de controles desde los parámetros de la solicitud
+    indexes = request.query_params.getlist('indexes', None)
 
     try:
-        if ids:
-            queries = Controls_Scripts.objects.filter(pk__in=ids)
+        if indexes:
+            queries = Controls_Scripts.objects.filter(control_script_id__index__in=indexes)
             if not queries.exists(): 
-                return Response({"status": "not_found", "error": "Uno o más controles con los IDs proporcionados no existen."}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"status": "not_found", "error": "Uno o más controles con los índices proporcionados no existen."}, status=status.HTTP_404_NOT_FOUND)
         else:
             queries = Controls_Scripts.objects.all()
 
@@ -73,9 +74,10 @@ def execute_query(request):
                     else:                        
                         return Response({"status": "query_failed", "error": resultado["error"]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         # Crear el registro de auditoría
-        AuditoryLog.objects.create(user=request.user, control_results=control_results)
+        server = ConnectionLog.objects.filter(user=request.user).last() 
+        AuditoryLog.objects.create(user=request.user, control_results=control_results, server=server)
 
-        return Response({"status": "queries_executed"}, status=status.HTTP_200_OK)
+        return Response({"status": "queries_executed", "control_results": control_results}, status=status.HTTP_200_OK)
     except Controls_Scripts.DoesNotExist:
         return Response({"status": "not_found"}, status=status.HTTP_404_NOT_FOUND)
     except pyodbc.Error as e:

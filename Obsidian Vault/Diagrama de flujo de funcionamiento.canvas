@@ -1,0 +1,40 @@
+{
+	"nodes":[
+		{"id":"802b59b417eb1579","x":-1320,"y":-800,"width":1992,"height":1060,"type":"group","label":"Aplicación Central"},
+		{"id":"b1048d36e3fb8ada","x":-1300,"y":-320,"width":1074,"height":560,"type":"group","label":"Servicio"},
+		{"id":"51c01847fc68c4a8","type":"group","x":60,"y":-762,"width":592,"height":325,"label":"Rutas"},
+		{"id":"31cee397f1b798e9","type":"group","x":-1280,"y":-80,"width":578,"height":300,"label":"Rutas"},
+		{"id":"9996c15b1b51d836","type":"text","text":"## Inicio de sesión en aplicación central ","x":-461,"y":-780,"width":485,"height":80,"color":"6"},
+		{"id":"84e9e530e8cfec05","type":"text","text":"\n> Generar:  session_token\n","x":-369,"y":-670,"width":302,"height":50},
+		{"id":"c1241c84dcd5c02f","type":"text","text":"# Aplicación Central","x":-379,"y":-575,"width":321,"height":80,"color":"6"},
+		{"id":"6afdcab93e1688ef","type":"text","text":"### Inicio de sesión en servicio ","x":-638,"y":-300,"width":347,"height":50,"color":"5"},
+		{"id":"ff0c6a37b2c02678","type":"text","text":"### Seleccionar servicio","x":-366,"y":-440,"width":295,"height":50,"color":"6"},
+		{"id":"1dfea0442af9390a","type":"text","text":"### Permitidas: \n\n- Rutas de la aplicación central\n- Rutas de inicios de sesión en los servicios\n","x":80,"y":-742,"width":256,"height":180,"color":"4"},
+		{"id":"00a5832e5f2abf92","type":"text","text":"#### Acceso a Rutas","x":83,"y":-507,"width":250,"height":50},
+		{"id":"1326cbd408be0459","type":"text","text":"### Denegadas:\n\n- Rutas de dentro de los servicios","x":376,"y":-682,"width":256,"height":120,"color":"1"},
+		{"id":"20635f9d967508a5","type":"text","text":"## Acceso a Rutas","x":-972,"y":-60,"width":250,"height":50},
+		{"id":"5ccd9811f71bec2c","type":"text","text":"### Permitidas: \n\n- Rutas del servicio\n","x":-1257,"y":40,"width":256,"height":100,"color":"4"},
+		{"id":"42ebf8812a6a1eff","type":"text","text":"### Denegadas:\n\n- Rutas de la aplicación central\n- Rutas de otro servicio","x":-975,"y":40,"width":256,"height":160,"color":"1"},
+		{"id":"6a946134a1fe8281","type":"text","text":"> Crear cookies \"OnService\" y \"TheService\"","x":-682,"y":-180,"width":436,"height":50},
+		{"id":"ad3b0b674b137aca","type":"text","text":"> Eliminar cookies \"OnService\" y \"TheService\"","x":-124,"y":-85,"width":415,"height":50,"color":"1"},
+		{"id":"2343b880eefcaf62","type":"text","text":"### Acceso al servicio","x":-632,"y":-55,"width":337,"height":50,"color":"5"},
+		{"id":"c2fe42f663376398","type":"text","text":"### Cerrar sesión en el servicio ","x":-647,"y":90,"width":367,"height":50,"color":"1"}
+	],
+	"edges":[
+		{"id":"7698aaaf86317240","fromNode":"ff0c6a37b2c02678","fromSide":"left","toNode":"6afdcab93e1688ef","toSide":"top","color":"5"},
+		{"id":"08731975f5c69cdd","fromNode":"6afdcab93e1688ef","fromSide":"bottom","toNode":"6a946134a1fe8281","toSide":"top","toEnd":"none","color":"5"},
+		{"id":"314538d2a54ef22d","fromNode":"6a946134a1fe8281","fromSide":"bottom","toNode":"2343b880eefcaf62","toSide":"top","color":"5"},
+		{"id":"2ba090ffed5bfa73","fromNode":"2343b880eefcaf62","fromSide":"left","toNode":"20635f9d967508a5","toSide":"right","toEnd":"none","color":"5"},
+		{"id":"8202af65b5c6e760","fromNode":"ad3b0b674b137aca","fromSide":"top","toNode":"ff0c6a37b2c02678","toSide":"right","color":"1"},
+		{"id":"56f1a53b07f2052f","fromNode":"20635f9d967508a5","fromSide":"bottom","toNode":"42ebf8812a6a1eff","toSide":"top","color":"1"},
+		{"id":"a58613405a99ec33","fromNode":"20635f9d967508a5","fromSide":"left","toNode":"5ccd9811f71bec2c","toSide":"top","color":"4"},
+		{"id":"426fd044031e6200","fromNode":"2343b880eefcaf62","fromSide":"bottom","toNode":"c2fe42f663376398","toSide":"top","color":"5"},
+		{"id":"26635b853de18099","fromNode":"c2fe42f663376398","fromSide":"right","toNode":"ad3b0b674b137aca","toSide":"bottom","toEnd":"none","color":"1"},
+		{"id":"67c2dd3286140943","fromNode":"00a5832e5f2abf92","fromSide":"right","toNode":"1326cbd408be0459","toSide":"bottom","color":"1"},
+		{"id":"5656d0e5d78873af","fromNode":"00a5832e5f2abf92","fromSide":"top","toNode":"1dfea0442af9390a","toSide":"bottom","color":"4"},
+		{"id":"3f93b0def906d6af","fromNode":"c1241c84dcd5c02f","fromSide":"right","toNode":"00a5832e5f2abf92","toSide":"left","toEnd":"none","color":"6"},
+		{"id":"fa132d6e72fdd129","fromNode":"9996c15b1b51d836","fromSide":"bottom","toNode":"84e9e530e8cfec05","toSide":"top","toEnd":"none","color":"6"},
+		{"id":"000ef3ae65b98250","fromNode":"c1241c84dcd5c02f","fromSide":"bottom","toNode":"ff0c6a37b2c02678","toSide":"top","color":"6"},
+		{"id":"00cadca71532401a","fromNode":"84e9e530e8cfec05","fromSide":"bottom","toNode":"c1241c84dcd5c02f","toSide":"top","color":"6"}
+	]
+}

@@ -10,8 +10,10 @@ from .serializer import UserSerializer
 from .models import CustomUser
 from django.core.exceptions import ValidationError
 from .permissions import IsAdmin
+from Connecting_App.permissions import NoOnServiceAccess
 
 class UserViewSet(viewsets.ViewSet):
+    permission_classes = [NoOnServiceAccess]
 
     @action(detail=False, methods=['post'], permission_classes=[AllowAny])
     def register(self, request):
