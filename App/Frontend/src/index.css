@@ -5,38 +5,12 @@
 body {
   /* background-color: #95e6e7cb; */
   background: rgb(133,132,149);
-  background: linear-gradient(86deg, rgba(133,132,149,1) 0%, rgba(72,96,111,1) 50%, rgba(66,70,122,1) 100%);
+  /*background: linear-gradient(86deg, rgba(133,132,149,1) 0%, rgba(72,96,111,1) 50%, rgba(66,70,122,1) 100%);*/
   /* background-color: #5570aa; */
   color: black;
-}
-
-html, body, #root {
   height: 100%;
-  margin: 0;
-  padding: 0;
 }
 
-.menu-item {
-  color: gray;
-  font-weight: normal;
-}
-
-.menu-item.active {
-  color: darkblue;
-  font-weight: bold;
-}
-
-.menu-item.mssql {
-  color: rgb(182, 7, 7);
-  font-weight: bold;
-}
-
-#mssql {
-  background: rgb(161,158,213);
-  background: linear-gradient(90deg, rgba(161,158,213,1) 0%, rgba(212,126,69,1) 73%, rgba(207,69,69,1) 100%);
-}
-
-#login {
-  background: rgb(167,164,217);
-  background: linear-gradient(345deg, rgba(167,164,217,1) 0%, rgba(159,197,218,1) 51%, rgb(84, 96, 235) 100%);
+input {
+  background-color: white;
 }

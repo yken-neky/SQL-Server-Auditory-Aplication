@@ -3,8 +3,8 @@ from .models import *
 # Register your models here.
 
 class Controls_Information_Admin(admin.ModelAdmin):
-    list_display = ('chapter', 'index', 'name')  # Incluir más adelante nivel de peligrosidad
-    search_fields = ('chapter', 'index')
+    list_display = ('chapter', 'idx', 'name')  # Incluir más adelante nivel de peligrosidad
+    search_fields = ('chapter', 'idx')
 
 class Controls_Scripts_Admin(admin.ModelAdmin):
     list_display = ('control_script_id','control_type')

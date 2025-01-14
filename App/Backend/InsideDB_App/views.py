@@ -54,7 +54,7 @@ def execute_query(request):
 
     try:
         if indexes:
-            queries = Controls_Scripts.objects.filter(control_script_id__index__in=indexes)
+            queries = Controls_Scripts.objects.filter(control_script_id__idx__in=indexes)
             if not queries.exists(): 
                 return Response({"status": "not_found", "error": "Uno o más controles con los índices proporcionados no existen."}, status=status.HTTP_404_NOT_FOUND)
         else:
@@ -64,13 +64,13 @@ def execute_query(request):
         for query in queries:
             with db_connection.cursor() as cursor:
                 if query.control_type == 'manual':
-                    control_results[query.control_script_id.index] = "MANUAL"  # Asumimos que los manuales siempre son correctos
+                    control_results[query.control_script_id.idx] = "MANUAL"  # Asumimos que los manuales siempre son correctos
                 else:
                     resultado = ejecutar_consulta(cursor, query.query_sql)
                     
                     if resultado["status"] == "success":                
                         flag = resultado["data"] 
-                        control_results[query.control_script_id.index] = flag                
+                        control_results[query.control_script_id.idx] = flag                
                     else:                        
                         return Response({"status": "query_failed", "error": resultado["error"]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         # Crear el registro de auditoría
