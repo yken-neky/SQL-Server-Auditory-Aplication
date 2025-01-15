@@ -6,9 +6,7 @@
 
 ### 6.2 - Ensure 'CLR Assembly Permission Set' is set to 'SAFE_ACCESS' for All CLR Assemblies
 
-USE <database_name>;
-GO
-
+```sql
 SET NOCOUNT ON;
 SET ANSI_WARNINGS OFF;
 
@@ -34,5 +32,6 @@ SELECT
         THEN 'TRUE' 
         ELSE 'FALSE' 
     END AS validation_status;
+```
 
 
