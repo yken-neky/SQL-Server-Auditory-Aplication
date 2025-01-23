@@ -31,21 +31,10 @@ ALLOWED_HOSTS = []
 # settings.py
 DATABASES = {
     'default': {
-    'ENGINE': 'mssql',
-    'NAME': 'DjangoDatabase',
-    'USER': 'sa',
-    'PASSWORD': 'SQL.Server*1234',
-    'HOST': 'localhost',
-    'PORT': '1433',
-    'OPTIONS': {
-        'driver': 'ODBC Driver 18 for SQL Server',
-        'TrustServerCertificate': 'yes',
-        'Encrypt': 'no', # Desactiva la encriptación para simplificar
-        'extra_params': 'TrustServerCertificate=yes;Encrypt=no',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Application definition
 INSTALLED_APPS = [

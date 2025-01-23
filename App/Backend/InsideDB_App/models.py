@@ -20,8 +20,8 @@ class Controls_Information(models.Model):
     ref = models.URLField(default="http://References.ref")
 
     class Meta: 
-        db_table = 'Control_Information'
-        managed = False
+        # db_table = 'Control_Information'
+        # managed = False
         unique_together = [
             'idx', 'chapter'
         ]
@@ -35,9 +35,9 @@ class Controls_Scripts(models.Model):
     control_type = models.CharField(max_length=10, choices=ControlType.choices, default=ControlType.AUTOMATIC)  # Tipo de control (manual o automático)
     query_sql = models.TextField(blank=True, null = True)
 
-    class Meta:
-        db_table = 'Control_Scripts'
-        managed = False
+    # class Meta:
+    #     db_table = 'Control_Scripts'
+    #     managed = False
 
     def __str__(self):
         return f"{self.control_script_id.idx}"
