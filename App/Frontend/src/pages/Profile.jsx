@@ -38,19 +38,19 @@ export function UserProfile() {
           <dl className="divide-y divide-gray-100">
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-bold text-gray-900">Usuario</dt>
-              <dd className="mt-1 text-sm/6 text-gray-200 sm:col-span-2 sm:mt-0">{user.username}</dd>
+              <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{user.username}</dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-bold text-gray-900">Primer Nombre</dt>
-              <dd className="mt-1 text-sm/6 text-gray-200 sm:col-span-2 sm:mt-0">{user.first_name}</dd>
+              <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{user.first_name}</dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-bold text-gray-900">Segundo Nombre</dt>
-              <dd className="mt-1 text-sm/6 text-gray-200 sm:col-span-2 sm:mt-0">{user.last_name}</dd>
+              <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{user.last_name}</dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-bold text-gray-900">Correo Electrónico</dt>
-              <dd className="mt-1 text-sm/6 text-gray-200 sm:col-span-2 sm:mt-0">{user.email}</dd>
+              <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{user.email}</dd>
             </div>
           </dl>
         </div>

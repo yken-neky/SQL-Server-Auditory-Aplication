@@ -26,7 +26,7 @@ class ConnectionLogDetail(generics.RetrieveAPIView):
 
 # Vista de administrador para listar todas las auditorías realizadas por los usuarios
 class AllAuditoryLogList(generics.ListAPIView):
-    permission_classes = [IsAdmin, HasOnServiceCookie]
+    permission_classes = [IsAdmin]
     queryset = AuditoryLog.objects.all()
     serializer_class = AuditoryLogSerializer
 

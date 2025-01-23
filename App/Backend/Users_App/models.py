@@ -7,11 +7,11 @@ class CustomUser(AbstractUser):
     last_login = models.DateTimeField(blank=True, null=True)
 
     ROLE_CHOICES = (
-        ('client', 'Client'),
+        ('cliente', 'Client'),
         ('admin', 'Admin'),
     )
     
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='client')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='cliente')
 
     def save(self, *args, **kwargs):
         self.last_login = timezone.now()

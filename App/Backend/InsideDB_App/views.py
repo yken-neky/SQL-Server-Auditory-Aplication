@@ -10,8 +10,8 @@ from Users_App.permissions import IsAdmin, IsClient
 from .models import *
 from .utils import *
 from .serializer import *
-import pyodbc
 from Connecting_App.permissions import HasOnServiceCookie
+import pyodbc
 
 class ControlsInformationList(generics.ListAPIView):
     permission_classes = [IsAuthenticated, HasOnServiceCookie]
@@ -50,7 +50,7 @@ def execute_query(request):
     db_connection = conexion_resultado["db_connection"]
 
     # Obtener los índices de controles desde los parámetros de la solicitud
-    indexes = request.query_params.getlist('indexes', None)
+    indexes = request.query_params.getlist('idxes', None)
 
     try:
         if indexes:

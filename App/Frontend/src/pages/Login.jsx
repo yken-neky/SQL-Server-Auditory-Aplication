@@ -46,14 +46,14 @@ export default function LoginForm() {
                   <label className="label">
                     <span className="label-text">Usuario</span>
                   </label>
-                  <input type="text" {...register('username', { required: true })} onChange={handleInputChange} placeholder="usuario" className="input input-bordered" required />
+                  <input type="text" {...register('username', { required: true })} onChange={handleInputChange} placeholder="usuario" className="input input-bordered text-white" required />
                   {errors.username && <span className='text-sm'>Este campo es requerido</span>}
                 </div>
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Contraseña</span>
                   </label>
-                  <input type="password" {...register('password', { required: true })} onChange={handleInputChange} placeholder="contraseña" className="input input-bordered" required />
+                  <input type="password" {...register('password', { required: true })} onChange={handleInputChange} placeholder="contraseña" className="input input-bordered text-white" required />
                   {errors.password && <span className='text-sm'>Este campo es requerido</span>}
                 </div>
                 {serverErrors.error && <span className='text-red-500 font-semibold font text-sm flex justify-center mt-3'>{serverErrors.error}</span>}

@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Scripts de controles/Capítulo 2.md",
+                "file": "Integración de SQL Server (contenerizado) con el backend.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Capítulo 2"
+              "title": "Integración de SQL Server (contenerizado) con el backend"
             }
           },
           {
@@ -55,16 +55,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Scripts de controles/Capítulo 7.md",
+                "file": "Integración de SQL Server (contenerizado) con el backend.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Capítulo 7"
+              "title": "Integración de SQL Server (contenerizado) con el backend"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -205,26 +205,27 @@
       "command-palette:Abrir paleta de comandos": false
     }
   },
-  "active": "211488af475255b7",
+  "active": "31d83cc7c975f4d9",
   "lastOpenFiles": [
-    "Scripts de controles/Capítulo 3.md",
     "Scripts de controles/Capítulo 7.md",
-    "Scripts de controles/Capítulo 2.md",
-    "Scripts de controles/Capítulo 4.md",
-    "Scripts de controles/Capítulo 5.md",
     "Scripts de controles/Capítulo 6.md",
-    "Diagrama de flujo de funcionamiento.canvas",
+    "Scripts de controles/Capítulo 5.md",
+    "Scripts de controles/Capítulo 4.md",
+    "Scripts de controles/Capítulo 3.md",
+    "Scripts de controles/Capítulo 2.md",
+    "Integración de SQL Server (contenerizado) con el backend.md",
+    "Dockerizar Base de Datos.md",
+    "Detalles de Versiones/Detalles de Versión - 0.5.md",
+    "Detalles de Versiones/Detalles de Versión - 0.4.md",
     "Registro de Cambios.md",
+    "Diagrama de flujo de funcionamiento.canvas",
     "Detalles de Versiones/Detalles de Versión - 0.5.1.md",
     "Componente de React para los controles dinámicos.md",
-    "Detalles de Versiones/Detalles de Versión - 0.4.md",
-    "Integración de SQL Server (contenerizado) con el backend.md",
     "Readme.md",
     "Info.md",
     "Registro de cambios.md",
     "Readme.md.md",
     "Detalles de Versiones/Detalles de Versión - 0.6.2.md",
-    "Detalles de Versiones/Detalles de Versión - 0.5.md",
     "Detalles de Versiones/Detalles de Versión - 0.6.md",
     "Detalles de Versiones/Detalles de Versión - 0.6.1.md",
     "Estrategia de protección de rutas.md",
@@ -233,7 +234,6 @@
     "Detalles de Versión - 0.5.5.md",
     "Sin nombre/desktop.ini",
     "Scripts de controles",
-    "Dockerizar Base de Datos.md",
     "desktop.ini"
   ]
 }

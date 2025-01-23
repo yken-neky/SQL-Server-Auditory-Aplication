@@ -40,4 +40,4 @@ class Controls_Scripts(models.Model):
         managed = False
 
     def __str__(self):
-        return f"{self.control_script_id.index}"
+        return f"{self.control_script_id.idx}"
