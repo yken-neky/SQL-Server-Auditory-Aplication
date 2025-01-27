@@ -39,14 +39,17 @@
             "id": "31d83cc7c975f4d9",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "Integración de SQL Server (contenerizado) con el backend.md",
-                "mode": "source",
-                "source": false
+                "file": "Diagrama de flujo de funcionamiento.canvas",
+                "viewState": {
+                  "x": -324,
+                  "y": -270,
+                  "zoom": -1.1003259748803946
+                }
               },
-              "icon": "lucide-file",
-              "title": "Integración de SQL Server (contenerizado) con el backend"
+              "icon": "lucide-layout-dashboard",
+              "title": "Diagrama de flujo de funcionamiento"
             }
           },
           {
@@ -207,17 +210,17 @@
   },
   "active": "31d83cc7c975f4d9",
   "lastOpenFiles": [
+    "Registro de Cambios.md",
+    "Integración de SQL Server (contenerizado) con el backend.md",
     "Scripts de controles/Capítulo 7.md",
     "Scripts de controles/Capítulo 6.md",
     "Scripts de controles/Capítulo 5.md",
     "Scripts de controles/Capítulo 4.md",
     "Scripts de controles/Capítulo 3.md",
     "Scripts de controles/Capítulo 2.md",
-    "Integración de SQL Server (contenerizado) con el backend.md",
     "Dockerizar Base de Datos.md",
     "Detalles de Versiones/Detalles de Versión - 0.5.md",
     "Detalles de Versiones/Detalles de Versión - 0.4.md",
-    "Registro de Cambios.md",
     "Diagrama de flujo de funcionamiento.canvas",
     "Detalles de Versiones/Detalles de Versión - 0.5.1.md",
     "Componente de React para los controles dinámicos.md",

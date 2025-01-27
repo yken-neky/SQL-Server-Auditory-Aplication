@@ -50,8 +50,7 @@ class ConnectionViewSet(viewsets.ViewSet):
         # Crear o actualizar la conexión después de verificarla
         active_conn = create_or_update_connection(user, driver, server, db_user, password)
         response = Response({"message": "Conexión creada o actualizada.", "connection": active_conn.id}, status=status.HTTP_200_OK)
-        response.set_cookie('OnService', 'true', httponly=True)
-        response.set_cookie('SQL_Auditory', 'active', httponly=True)
+        # response.set_cookie('SQL_Auditory', 'active', httponly=True)
         return response
 
     @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated, HasOnServiceCookie, IsClient])
@@ -64,10 +63,7 @@ class ConnectionViewSet(viewsets.ViewSet):
 
         disconnect_user(user)
         response = Response({"message": "Desconexión exitosa."}, status=status.HTTP_200_OK)
-        response.delete_cookie('OnService')
-        response.delete_cookie('SQL_Auditory')
-        response.set_cookie('OnService', 'false', httponly=True)
-        response.set_cookie('SQL_Auditory', 'inactive', httponly=True)
+        # response.delete_cookie('SQL_Auditory')
         return response
 
 # class VcenterConnectionView(viewsets.ViewSet):

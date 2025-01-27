@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { ConnectToDB } from '../../api/log-reg.api'; // Asegúrate de importar la función desde tu archivo de configuración de axios
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const ConnectionForm = () => {
     const navigate = useNavigate();
@@ -11,7 +12,7 @@ const ConnectionForm = () => {
       db_user: '',
       password: ''
     });
-
+    
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -22,10 +23,10 @@ const ConnectionForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await ConnectToDB(formData);
-      console.log('Conexión exitosa:', response.data);
+      await ConnectToDB(formData);
       // Puedes redirigir o mostrar un mensaje de éxito aquí
       navigate('/home')
+      toast.success("Conexión exitosa a SQL Server 2022.")
     } catch (error) {
       console.error('Error de conexión:', error.response.data);
       // Puedes mostrar un mensaje de error aquí
