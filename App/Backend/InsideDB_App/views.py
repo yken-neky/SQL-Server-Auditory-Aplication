@@ -24,12 +24,12 @@ class ControlInformationDetail(generics.RetrieveAPIView):
     serializer_class = Controls_Information_Serializer
 
 class ControlScriptsList(generics.ListAPIView):
-    permission_classes = [IsAdmin, HasOnServiceCookie]
+    permission_classes = [IsAdmin]
     queryset = Controls_Scripts.objects.all()
     serializer_class = Controls_Scripts_Serializer
 
 class ControlScriptDetail(generics.RetrieveAPIView):
-    permission_classes = [IsAdmin, HasOnServiceCookie]
+    permission_classes = [IsAdmin]
     queryset = Controls_Scripts.objects.all()
     serializer_class = Controls_Scripts_Serializer
 
