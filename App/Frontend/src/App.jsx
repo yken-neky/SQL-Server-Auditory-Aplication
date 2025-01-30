@@ -15,20 +15,21 @@ import { AccessDenied } from './components/navigation/DeniedAccess';
 import { HomeDB } from './pages/OnService/HomeDB';
 import ProtectedWithServiceRoute from './components/navigation/ProtectedWithServiceRoute'
 import { ServiceProvider } from './contexts/ServiceContext';
+import NoOnService from './components/navigation/NoOnService';
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/login" /> },
   { path: "/login", element: <PublicRoute><LoginForm /></PublicRoute> },
   { path: "/register", element: <PublicRoute><RegisterForm /></PublicRoute> },
+  { path: "access-denied", element:<AccessDenied/>},
   {
     path: "/",
     element: <ProtectedRoute><Layout /></ProtectedRoute>,
     children: [
       { path: "profile", element: <UserProfile /> },
       { path: "edit_profile", element: <EditProfileForm/> },
-      { path: "dashboard", element: <Dashboard /> },
+      { path: "dashboard", element: <NoOnService><Dashboard /></NoOnService> },
       { path: "logDB", element: <ConnectionForm/> },
-      { path:"/access-denied", element:<AccessDenied/>},
     ]
   },
   {
