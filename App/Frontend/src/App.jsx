@@ -13,10 +13,11 @@ import LoginForm from './pages/Login';
 import ConnectionForm from './pages/OnService/LoginDB';
 import { AccessDenied } from './components/navigation/DeniedAccess';
 import { HomeDB } from './pages/OnService/HomeDB';
+import ProtectedWithServiceRoute from './components/navigation/ProtectedWithServiceRoute'
+import { ServiceProvider } from './contexts/ServiceContext';
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/login" /> },
-  { path:"/access-denied", element:<AccessDenied/>},
   { path: "/login", element: <PublicRoute><LoginForm /></PublicRoute> },
   { path: "/register", element: <PublicRoute><RegisterForm /></PublicRoute> },
   {
@@ -27,6 +28,13 @@ const router = createBrowserRouter([
       { path: "edit_profile", element: <EditProfileForm/> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "logDB", element: <ConnectionForm/> },
+      { path:"/access-denied", element:<AccessDenied/>},
+    ]
+  },
+  {
+    path: "/onService/",
+    element: <ProtectedWithServiceRoute><Layout /></ProtectedWithServiceRoute>,
+    children: [
       { path: "home", element: <HomeDB/> },
     ]
   }
@@ -37,10 +45,12 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
+    <ServiceProvider>
       <AuthProvider>
         <RouterProvider router={router} />
         <Toaster />
       </AuthProvider>
+    </ServiceProvider>
     </>
   );
 }
