@@ -41,7 +41,7 @@ export function EditProfileForm() {
 
   return (
 
-    <div>
+    <div className='border-8 border-stone-200 p-5 rounded-lg shadow-md shadow-gray-400 bg-stone-200'>
       <div className="px-4 sm:px-0">
         <h3 className="text-lg/6 font-bold text-gray-900">Perfil de Usuario</h3>
         <p className="mt-1 max-w-2xl font-semibold text-sm/6 text-gray-600">Actualizando perfil...</p>

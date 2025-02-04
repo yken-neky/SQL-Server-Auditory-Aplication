@@ -34,7 +34,7 @@ const ConnectionForm = () => {
   };
 
   return (
-    <div className="w-1/3 mt-10 p-6 bg-white shadow-md rounded-md">
+    <div className="w-1/3 p-6 bg-white shadow-md rounded-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Conexión a SQL Server</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

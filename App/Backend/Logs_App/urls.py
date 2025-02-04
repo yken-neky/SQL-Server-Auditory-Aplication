@@ -1,5 +1,9 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from .views import *
+
+router = DefaultRouter()
+router.register(r'dashGET', DashboardViewSet, basename='dash')
 
 urlpatterns = [
     path('api/logs/admin/connection_logs_list/', AllConnectionLogList.as_view(), name='connection_log_list_admin'),
@@ -8,4 +12,5 @@ urlpatterns = [
     path('api/logs/connection_logs_details/<int:pk>/', ConnectionLogDetail.as_view(), name='connection_log_detail'),
     path('api/logs/auditory_logs_list/', AuditoryLogList.as_view(), name='auditory_log_list'),
     path('api/logs/auditory_logs_detail/<int:pk>', AuditoryLogDetail.as_view(), name='auditory_log_detail'),
+    path('api/', include(router.urls))
 ]

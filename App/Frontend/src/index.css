@@ -19,3 +19,32 @@ html {
 input {
   background-color: white;
 }
+
+
+/* Para mantener el header sticky */
+.table thead tr {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Asegurar que la tabla mantenga su layout */
+.table {
+  display: table;
+  width: 100%;
+}
+
+/* Mejorar apariencia del scroll */
+.table-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #1f2937;
+}

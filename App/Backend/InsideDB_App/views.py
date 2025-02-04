@@ -55,10 +55,12 @@ def execute_query(request):
     try:
         if indexes:
             queries = Controls_Scripts.objects.filter(control_script_id__idx__in=indexes)
+            type = 'Parcial'
             if not queries.exists(): 
                 return Response({"status": "not_found", "error": "Uno o más controles con los índices proporcionados no existen."}, status=status.HTTP_404_NOT_FOUND)
         else:
             queries = Controls_Scripts.objects.all()
+            type = 'Completa'
 
         control_results = {}
         for query in queries:
@@ -75,7 +77,7 @@ def execute_query(request):
                         return Response({"status": "query_failed", "error": resultado["error"]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         # Crear el registro de auditoría
         server = ConnectionLog.objects.filter(user=request.user).last() 
-        AuditoryLog.objects.create(user=request.user, control_results=control_results, server=server)
+        AuditoryLog.objects.create(user=request.user, control_results=control_results, server=server, type = type)
 
         return Response({"status": "queries_executed", "control_results": control_results}, status=status.HTTP_200_OK)
     except Controls_Scripts.DoesNotExist:
