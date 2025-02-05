@@ -16,6 +16,7 @@ class ConnectionLog(models.Model):
 # Tabla para almacenar auditorias completas y parciales 
 class AuditoryLog(models.Model): 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE) 
+    type = models.CharField(max_length=50, choices=[('completa', 'Completa'), ('parcial', 'Parcial')], default='Parcial')
     control_results = models.JSONField() 
     timestamp = models.DateTimeField(auto_now_add=True)
     server = models.ForeignKey(ConnectionLog, on_delete=models.CASCADE) 

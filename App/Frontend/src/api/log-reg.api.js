@@ -35,3 +35,8 @@ export const deactivateUserAccount = () => LogRegAPI.post('/api/users/deactivate
 // SQL Server 
 export const ConnectToDB = (data) => LogRegAPI.post('api/sql_conn/connections/connect/', data, { withCredentials: true });
 export const LogOutDB = () => LogRegAPI.post('api/sql_conn/connections/disconnect/');
+export const FetchConnectionLogListUser = () => LogRegAPI.get('api/logs/connection_logs_list/');
+// Dashboard
+export const FetchConnectionAmountUser = () => LogRegAPI.get('api/dashGET/connectionAmount/');
+export const FetchAuditoryAmountUser = () => LogRegAPI.get('api/dashGET/auditoryAmount/');
+export const FetchLastAuditoryPercentageUser = () => LogRegAPI.get('api/dashGET/correctRate/');
