@@ -18,7 +18,7 @@ export function Dashboard() {
         response.percentage = await FetchLastAuditoryPercentageUser();
         if (!response) throw new Error('Error fetching logs');
   
-        const data = response.data.slice(0, 5);
+        const data = response.data.slice(-5).reverse();
         const per = response.percentage;
         const conn = response.connections;
         const audit = response.auditory;

@@ -25,7 +25,8 @@ class ActiveConnectionDetail(generics.RetrieveAPIView):
 class ConnectionViewSet(viewsets.ViewSet):
     authentication_classes = [TokenAuthentication]
 
-    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated, NoOnServiceAccess, IsClient])
+    @action(detail=False, methods=['post'], 
+            permission_classes=[IsAuthenticated, NoOnServiceAccess, IsClient])
     def connect(self, request):
         driver = request.data.get('driver')
         server = request.data.get('server')
