@@ -16,9 +16,10 @@ import { HomeDB } from './pages/OnService/HomeDB';
 import ProtectedWithServiceRoute from './components/navigation/ProtectedWithServiceRoute'
 import { ServiceProvider } from './contexts/ServiceContext';
 import NoOnService from './components/navigation/NoOnService';
+import { Landing } from './pages/Landing';
 
 const router = createBrowserRouter([
-  { path: "/", element: <Navigate to="/login" /> },
+  { path: "/", element: <Landing/> },
   { path: "/login", element: <PublicRoute><LoginForm /></PublicRoute> },
   { path: "/register", element: <PublicRoute><RegisterForm /></PublicRoute> },
   { path: "access-denied", element:<AccessDenied/>},
