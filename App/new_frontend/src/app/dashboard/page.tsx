@@ -1,98 +1,216 @@
 'use client'
 
-import Image from 'next/image'
+import { useUser } from '@/hooks/useUser'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { fetchConnectionAmountUser, fetchAuditoryAmountUser, fetchLastAuditoryPercentageUser, fetchConnectionLogListUser } from '@/lib/axios'
+import Breadcrumb from '@/components/Breadcrumb'
+
+interface ConnectionAmountResponse {
+  connectionTotal: number
+}
+
+interface AuditoryAmountResponse {
+  auditTotal: number
+}
+
+interface PercentageResponse {
+  percentage: number
+}
+
+interface Stats {
+  connections: number
+  audits: number
+  reports: number
+  percentage: number
+}
+
+interface ConnectionLog {
+  id: number
+  server: string
+  db_user: string
+  status: 'connected' | 'disconnected' | 'reconnected'
+  timestamp: string
+}
 
 export default function DashboardPage() {
+  const { user, isLoading: userLoading } = useUser()
+  const [stats, setStats] = useState<Stats>({
+    connections: 0,
+    audits: 0,
+    reports: 0,
+    percentage: 0
+  })
+  const [recentConnections, setRecentConnections] = useState<ConnectionLog[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const [connectionsRes, auditsRes, percentageRes, logsRes] = await Promise.all([
+          fetchConnectionAmountUser(),
+          fetchAuditoryAmountUser(),
+          fetchLastAuditoryPercentageUser(),
+          fetchConnectionLogListUser()
+        ])
+        
+        const connections = connectionsRes.data as ConnectionAmountResponse
+        const audits = auditsRes.data as AuditoryAmountResponse
+        const percentage = percentageRes.data as PercentageResponse
+        
+        setStats({
+          connections: connections.connectionTotal,
+          audits: audits.auditTotal,
+          reports: audits.auditTotal, // Asumimos que cada auditoría tiene un reporte
+          percentage: percentage.percentage
+        })
+
+        // Obtener las últimas 5 conexiones
+        setRecentConnections((logsRes.data as ConnectionLog[]).slice(-5).reverse())
+      } catch (error) {
+        console.error('Error al cargar estadísticas:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchStats()
+  }, [])
+
+  if (userLoading || isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[calc(100vh-5rem)]">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-sky-500"></div>
+      </div>
+    )
+  }
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
-      {/* Header/Nav */}
-      <nav className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-800">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Image src="/icon.svg" alt="Logo" width={40} height={40} />
-            <span className="text-sky-500 font-bold text-xl">SQL Auditor</span>
+    <div className="max-w-7xl mx-auto py-8 px-4">
+      <Breadcrumb 
+        items={[
+          { label: 'Dashboard' }
+        ]} 
+      />
+      
+      <h1 className="text-3xl font-bold text-white mb-6">
+        Bienvenido, {user?.first_name || user?.username}
+      </h1>
+      
+      <div className="grid md:grid-cols-3 gap-6 mb-8">
+        {/* Conexiones */}
+        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h2 className="text-xl font-semibold text-white mb-2">Conexiones</h2>
+              <p className="text-slate-400">Gestiona tus conexiones a SQL Server</p>
+            </div>
+            <span className="text-4xl font-bold text-sky-500">{stats.connections}</span>
           </div>
-          <div className="flex items-center gap-4">
-            <button className="text-slate-300 hover:text-white transition-colors">
-              Mi Perfil
-            </button>
-            <button className="text-slate-300 hover:text-white transition-colors">
-              Cerrar Sesión
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        {/* Welcome Section */}
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold text-white mb-4">
-            Bienvenido a SQL Auditor
-          </h1>
-          <p className="text-slate-300 text-lg">
-            Comienza a auditar la seguridad de tus servidores SQL Server
-          </p>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-            <h3 className="text-xl font-semibold text-white mb-4">Nueva Auditoría</h3>
-            <p className="text-slate-300 mb-6">
-              Inicia una nueva auditoría de seguridad en tu servidor SQL
-            </p>
-            <button className="bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-400 transition-colors">
-              Comenzar Auditoría
-            </button>
-          </div>
-
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-            <h3 className="text-xl font-semibold text-white mb-4">Historial</h3>
-            <p className="text-slate-300 mb-6">
-              Revisa los resultados de tus auditorías anteriores
-            </p>
-            <button className="bg-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-600 transition-colors">
-              Ver Historial
-            </button>
-          </div>
-
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-            <h3 className="text-xl font-semibold text-white mb-4">Documentación</h3>
-            <p className="text-slate-300 mb-6">
-              Aprende más sobre los controles de seguridad CIS
-            </p>
-            <button className="bg-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-600 transition-colors">
-              Ver Documentación
-            </button>
+          <div className="mt-6">
+            <Link 
+              href="/dashboard/connections"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors"
+            >
+              <span>Ver Historial</span>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
         </div>
 
-        {/* Stats Section */}
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-            <h4 className="text-lg font-medium text-slate-300 mb-2">
-              Auditorías Realizadas
-            </h4>
-            <p className="text-3xl font-bold text-white">0</p>
+        {/* Auditorías */}
+        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h2 className="text-xl font-semibold text-white mb-2">Auditorías</h2>
+              <p className="text-slate-400">Revisa tus auditorías recientes</p>
+            </div>
+            <span className="text-4xl font-bold text-sky-500">{stats.audits}</span>
           </div>
-
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-            <h4 className="text-lg font-medium text-slate-300 mb-2">
-              Servidores Auditados
-            </h4>
-            <p className="text-3xl font-bold text-white">0</p>
+          <div className="mt-6">
+            <Link 
+              href="/dashboard/auditory"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-400 transition-colors"
+            >
+              <span>Nueva Auditoría</span>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+            </Link>
           </div>
+        </div>
 
-          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-            <h4 className="text-lg font-medium text-slate-300 mb-2">
-              Última Puntuación
-            </h4>
-            <p className="text-3xl font-bold text-white">-</p>
+        {/* Criticidad */}
+        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h2 className="text-xl font-semibold text-white mb-2">Criticidad</h2>
+              <p className="text-slate-400">Última auditoría realizada</p>
+            </div>
+            <span className={`text-4xl font-bold ${
+              stats.percentage < 25 ? 'text-sky-500' : 
+              stats.percentage < 50 ? 'text-yellow-500' : 
+              'text-red-500'
+            }`}>{stats.percentage}%</span>
+          </div>
+          <div className="mt-6">
+            <Link 
+              href="/dashboard/reports"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors"
+            >
+              <span>Ver Reportes</span>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
         </div>
       </div>
-    </main>
+
+      {/* Tabla de conexiones recientes */}
+      <div className="bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
+        <div className="p-6">
+          <h2 className="text-xl font-semibold text-white mb-4">Conexiones Recientes</h2>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-slate-900">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">#</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Servidor</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Usuario DB</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Estado</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Fecha/Hora</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-700">
+              {recentConnections.map((log, index) => (
+                <tr key={log.id} className="hover:bg-slate-700/50 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{index + 1}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{log.server}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{log.db_user}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      {
+                        connected: 'bg-green-100 text-green-800',
+                        disconnected: 'bg-red-100 text-red-800',
+                        reconnected: 'bg-blue-100 text-blue-800',
+                      }[log.status] || 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {log.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                    {new Date(log.timestamp).toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   )
 } 
