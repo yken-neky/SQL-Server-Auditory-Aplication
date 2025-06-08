@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { FcHome, FcBusinessman, FcDataEncryption } from "react-icons/fc";
+import { FcHome, FcBusinessman, FcDataEncryption, FcDataProtection } from "react-icons/fc";
 
 export function Menu() {
 
@@ -17,6 +17,7 @@ export function Menu() {
               <li><Link to="/dashboard"><FcHome className="w-5 h-5"/>Dashboard</Link></li>
               <li><Link to="/profile"><FcBusinessman className="w-5 h-5"/>Mi perfil</Link></li>
               <li><Link to="/logDB"><FcDataEncryption className="w-5 h-5"/>Auditar SQL Server</Link></li>
+              <li><Link to="/logDB"><FcDataProtection className="w-5 h-5"/>Auditar ESXi Server (Coming Soon...)</Link></li>
             </ul>
           </div>
         </div>
