@@ -17,9 +17,18 @@ import ProtectedWithServiceRoute from './components/navigation/ProtectedWithServ
 import { ServiceProvider } from './contexts/ServiceContext';
 import NoOnService from './components/navigation/NoOnService';
 import { Landing } from './pages/Landing';
+import { AuditoryReport } from './pages/AuditoryReport';
 
 const router = createBrowserRouter([
   { path: "/", element: <Landing/> },
+  { path: "/report", element: <AuditoryReport/>,
+    // Modern layout wrapper for report page
+    loader: async () => {},
+    handle: {
+      layout: 'modern',
+      theme: 'cyber',
+    }
+  },
   { path: "/login", element: <PublicRoute><LoginForm /></PublicRoute> },
   { path: "/register", element: <PublicRoute><RegisterForm /></PublicRoute> },
   { path: "access-denied", element:<AccessDenied/>},
