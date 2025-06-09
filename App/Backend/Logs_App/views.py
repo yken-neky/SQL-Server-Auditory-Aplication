@@ -69,13 +69,5 @@ class DashboardViewSet(viewsets.ViewSet):
         lastAudit = AuditoryLog.objects.filter(user=request.user, type = 'Completa').last()
         if lastAudit is None:
             return Response({"percentage": 0})
-        results =  lastAudit.control_results
-        corrects = 0
-        for key,value in results.items():
-            if value == 'TRUE': 
-                corrects += 1
-        total = 43
-        percentage = (corrects / total) * 100
-        percentage = round(percentage, 2)
-        percentage = 100 - percentage
-        return Response({"percentage": percentage}, status=status.HTTP_200_OK)
+        
+        return Response({"percentage": lastAudit.criticidad}, status=status.HTTP_200_OK)

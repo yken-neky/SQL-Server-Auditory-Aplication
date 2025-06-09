@@ -77,7 +77,17 @@ def execute_query(request):
                         return Response({"status": "query_failed", "error": resultado["error"]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         # Crear el registro de auditoría
         server = ConnectionLog.objects.filter(user=request.user).last() 
-        AuditoryLog.objects.create(user=request.user, control_results=control_results, server=server, type = type)
+        audit = AuditoryLog.objects.create(user=request.user, server=server, type=type)
+        falses = 0
+        total = 0
+        for idx, result in control_results.items():
+            control = Controls_Information.objects.get(idx=idx)
+            AuditoryLogResult.objects.create(auditory_log=audit, control=control, result=result)
+            if result == 'FALSE':
+                falses += 1
+            total += 1
+        audit.criticidad = round((falses / total) * 100, 2) if total > 0 else 0
+        audit.save()
 
         return Response({"status": "queries_executed", "control_results": control_results}, status=status.HTTP_200_OK)
     except Controls_Scripts.DoesNotExist:

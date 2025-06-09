@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { UserProvider } from "@/contexts/UserContext";
+import { DBConnectionProvider } from '@/contexts/DBConnectionContext';
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,20 +23,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased bg-slate-950 min-h-screen`}>
         <AuthProvider>
           <UserProvider>
-            {children}
-            <Toaster 
-              position="top-center"
-              toastOptions={{
-                duration: 3000,
-                style: {
-                  background: '#1e293b',
-                  color: '#fff',
-                }
-              }}
-            />
+            <DBConnectionProvider>
+              <Toaster 
+                position="top-center"
+                toastOptions={{
+                  duration: 3000,
+                  style: {
+                    background: '#1e293b',
+                    color: '#fff',
+                  }
+                }}
+              />
+              {children}
+            </DBConnectionProvider>
           </UserProvider>
         </AuthProvider>
       </body>

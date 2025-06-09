@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { logoutUser } from '@/lib/axios'
 import { useUser } from '@/contexts/UserContext'
+import { useDBConnection } from '@/contexts/DBConnectionContext'
 import { toast } from 'react-hot-toast'
 
 export default function Navbar() {
@@ -13,6 +14,7 @@ export default function Navbar() {
   const menuRef = useRef<HTMLDivElement>(null)
   const { logout } = useAuth()
   const { user, isLoading } = useUser()
+  const { isConnected } = useDBConnection()
 
   // Cerrar el menú cuando se hace clic fuera de él
   useEffect(() => {
@@ -53,7 +55,12 @@ export default function Navbar() {
           {isLoading ? (
             <div className="w-32 h-6 bg-slate-800 rounded animate-pulse" />
           ) : (
-            <span className="text-slate-300">{fullName}</span>
+            <span className="text-slate-300 flex items-center gap-2">
+              {fullName}
+              {isConnected && (
+                <span title="Conexión a SQL Server activa" className="inline-block w-3 h-3 rounded-full bg-green-500 border border-green-300 animate-pulse"></span>
+              )}
+            </span>
           )}
           <div className="relative" ref={menuRef}>
             <button
@@ -93,4 +100,4 @@ export default function Navbar() {
       </div>
     </nav>
   )
-} 
+}

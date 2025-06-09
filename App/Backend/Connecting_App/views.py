@@ -26,7 +26,7 @@ class ConnectionViewSet(viewsets.ViewSet):
     authentication_classes = [TokenAuthentication]
 
     @action(detail=False, methods=['post'], 
-            permission_classes=[IsAuthenticated, NoOnServiceAccess, IsClient])
+            permission_classes=[IsAuthenticated, IsClient])
     def connect(self, request):
         driver = request.data.get('driver')
         server = request.data.get('server')

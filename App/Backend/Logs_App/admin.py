@@ -9,7 +9,7 @@ class ConnectionLogAdmin(admin.ModelAdmin):
 admin.site.register(ConnectionLog, ConnectionLogAdmin)
 
 class AuditoryLogAdmin(admin.ModelAdmin):
-    list_display = ('user', 'timestamp', 'control_results', 'server')  
+    list_display = ('user', 'timestamp', 'server')  # Eliminar 'control_results' de la lista
     search_fields = ('user__username',)
 
 admin.site.register(AuditoryLog, AuditoryLogAdmin)
