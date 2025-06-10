@@ -26,10 +26,12 @@ export default function LoginDBModal({ onClose }: { onClose: () => void }) {
     setLoading(true);
     setError("");
     try {
-      await connectToDB(formData);
+      const response = await connectToDB(formData);
+      console.log("Respuesta del servidor al conectar:", response?.data, response);
       setConnected(true); // Marcar conexión activa
       router.push("/dashboard/auditory");
     } catch (err: any) {
+      console.log("Error al conectar a la base de datos:", err?.response?.data, err);
       setError(
         err?.response?.data?.detail || "Error de conexión. Verifica los datos."
       );
@@ -57,7 +59,10 @@ export default function LoginDBModal({ onClose }: { onClose: () => void }) {
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="driver" className="block text-sm font-medium text-slate-300">
+            <label
+              htmlFor="driver"
+              className="block text-sm font-medium text-slate-300"
+            >
               Driver
             </label>
             <input
@@ -71,7 +76,10 @@ export default function LoginDBModal({ onClose }: { onClose: () => void }) {
             />
           </div>
           <div>
-            <label htmlFor="server" className="block text-sm font-medium text-slate-300">
+            <label
+              htmlFor="server"
+              className="block text-sm font-medium text-slate-300"
+            >
               Servidor
             </label>
             <input
@@ -85,7 +93,10 @@ export default function LoginDBModal({ onClose }: { onClose: () => void }) {
             />
           </div>
           <div>
-            <label htmlFor="db_user" className="block text-sm font-medium text-slate-300">
+            <label
+              htmlFor="db_user"
+              className="block text-sm font-medium text-slate-300"
+            >
               Usuario de BD
             </label>
             <input
@@ -99,7 +110,10 @@ export default function LoginDBModal({ onClose }: { onClose: () => void }) {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-slate-300">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-slate-300"
+            >
               Contraseña
             </label>
             <input
