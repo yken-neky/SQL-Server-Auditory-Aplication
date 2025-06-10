@@ -13,3 +13,5 @@ class AuditoryLogAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
 
 admin.site.register(AuditoryLog, AuditoryLogAdmin)
+
+admin.site.register(AuditoryLogResult)

@@ -3,8 +3,9 @@
 import Breadcrumb from '@/components/Breadcrumb'
 import LoginDBModal from '@/components/LoginDBModal';
 import { useState, useEffect } from 'react';
-import { fetchControlInfo } from '@/lib/axios';
+import { fetchControlInfo, executeFullAudit, executePartialAudit } from '@/lib/axios';
 import { useDBConnection } from '@/contexts/DBConnectionContext';
+import { useRouter } from 'next/navigation';
 
 export default function AuditoryPage() {
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +15,7 @@ export default function AuditoryPage() {
   const [loadingControls, setLoadingControls] = useState(false);
   const { isConnected } = useDBConnection();
   const [showLogin, setShowLogin] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setShowLogin(!isConnected);
@@ -25,7 +27,7 @@ export default function AuditoryPage() {
     try {
       // Obtener todos los controles usando fetchControlInfo sin parámetros para traer todos
       const res = await fetchControlInfo();
-      setControls(res.data);
+      setControls(res.data as any[]);
     } finally {
       setLoadingControls(false);
     }
@@ -42,6 +44,38 @@ export default function AuditoryPage() {
       else newSet.add(idx);
       return newSet;
     });
+  };
+
+  // Ejecutar auditoría completa
+  const handleFullAudit = async () => {
+    try {
+      const res = await executeFullAudit();
+      const auditId = (res.data as { audit_id?: number }).audit_id;
+      if (auditId) {
+        router.push(`/dashboard/reports/${auditId}`);
+      } else {
+        alert('Auditoría completa ejecutada, pero no se pudo obtener el ID del informe.');
+      }
+    } catch (err) {
+      alert('Error al ejecutar auditoría completa.');
+    }
+  };
+
+  // Ejecutar auditoría parcial
+  const handlePartialAudit = async () => {
+    try {
+      const idxs = Array.from(selected);
+      const res = await executePartialAudit(idxs);
+      setShowModal(false);
+      const auditId = (res.data as { audit_id?: number }).audit_id;
+      if (auditId) {
+        router.push(`/dashboard/reports/${auditId}`);
+      } else {
+        alert('Auditoría parcial ejecutada, pero no se pudo obtener el ID del informe.');
+      }
+    } catch (err) {
+      alert('Error al ejecutar auditoría parcial.');
+    }
   };
 
   // Agrupar controles por capítulo
@@ -64,7 +98,11 @@ export default function AuditoryPage() {
       />
       <h1 className="text-3xl font-bold text-white mb-8 text-center">Selecciona el tipo de auditoría</h1>
       <div className="grid md:grid-cols-2 gap-8">
-        <a href="/dashboard/auditory/complete" className="block bg-sky-900 border border-sky-600 rounded-lg p-6 shadow hover:scale-105 hover:border-sky-400 transition-transform cursor-pointer text-base md:text-lg">
+        <button
+          type="button"
+          onClick={handleFullAudit}
+          className="block bg-sky-900 border border-sky-600 rounded-lg p-6 shadow hover:scale-105 hover:border-sky-400 transition-transform cursor-pointer text-base md:text-lg text-left"
+        >
           <h2 className="text-2xl font-bold text-sky-400 mb-2">Auditoría Completa</h2>
           <p className="text-slate-300 mb-2">Audita el 100% de los controles de seguridad en tu servidor de bases de datos.</p>
           <ul className="text-slate-400 list-disc pl-5 text-base md:text-lg">
@@ -72,7 +110,7 @@ export default function AuditoryPage() {
             <li>Recomendado para revisiones periódicas o iniciales</li>
             <li>Resultados detallados y completos</li>
           </ul>
-        </a>
+        </button>
         <button type="button" onClick={handlePartialClick} className="block text-left bg-yellow-900 border border-yellow-400 rounded-lg p-6 shadow hover:scale-105 hover:border-yellow-300 transition-transform cursor-pointer text-base md:text-lg">
           <h2 className="text-2xl font-bold text-yellow-300 mb-2">Auditoría Parcial</h2>
           <p className="text-slate-300 mb-2">Selecciona parámetros específicos para auditar en tu base de datos.</p>
@@ -111,7 +149,7 @@ export default function AuditoryPage() {
                     </button>
                     {expandedChapters[chapter] && (
                       <div className="pl-3 space-y-1 mt-1">
-                        {grouped[chapter].map(control => (
+                        {grouped[chapter].map((control: any) => (
                           <label key={control.idx} className="flex items-center gap-2 cursor-pointer bg-slate-800 hover:bg-slate-700 rounded px-2 my-1 transition">
                             <input
                               type="checkbox"
@@ -136,7 +174,7 @@ export default function AuditoryPage() {
               <button
                 className="px-4 py-1.5 rounded-lg bg-sky-500 text-white hover:bg-sky-400 font-semibold text-sm transition disabled:opacity-50"
                 disabled={selected.size === 0}
-                onClick={() => {/* Aquí puedes guardar selected para futuras peticiones */} }
+                onClick={handlePartialAudit}
               >
                 Auditar seleccionados
               </button>

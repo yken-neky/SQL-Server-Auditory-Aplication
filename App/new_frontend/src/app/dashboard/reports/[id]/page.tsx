@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
-import { fetchAuditoryLogDetail, fetchControlInfo } from "@/lib/axios";
+import { fetchAuditoryLogDetail, fetchControlInfo, fetchAuditoryLogResults } from "@/lib/axios";
 import { use } from "react";
 
 interface ControlInfo {
@@ -28,9 +28,16 @@ interface AuditoryLogDetail {
   control_results: Record<string, string>;
 }
 
+interface AuditoryLogResult {
+  id: number;
+  control: number;
+  result: string;
+}
+
 export default function AuditoryLogDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const [log, setLog] = useState<AuditoryLogDetail | null>(null);
+  //const [log, setLog] = useState<AuditoryLogDetail | null>(null);
+  const [results, setResults] = useState<AuditoryLogResult[]>([]);
   const [controls, setControls] = useState<ControlInfo[]>([]);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [isLoading, setIsLoading] = useState(true);
@@ -39,12 +46,16 @@ export default function AuditoryLogDetailPage({ params }: { params: Promise<{ id
   useEffect(() => {
     async function fetchData() {
       try {
-        const logRes = await fetchAuditoryLogDetail(id);
-        setLog(logRes.data);
-        // Obtener todos los controles relacionados
-        const controlIds = Object.keys(logRes.data.control_results);
-        const controlsRes = await fetchControlInfo(controlIds);
-        setControls(controlsRes.data);
+        //const logRes = await fetchAuditoryLogDetail(Number(id));
+        //setLog(logRes.data as AuditoryLogDetail);
+        // Obtener resultados de controles asociados a la auditoría
+        const resultsRes = await fetchAuditoryLogResults(Number(id));
+        setResults(resultsRes.data as AuditoryLogResult[]);
+        // Obtener info de los controles involucrados
+        const controlIds = (resultsRes.data as AuditoryLogResult[]).map((r) => r.control);
+        // fetchControlInfo no acepta parámetros, así que filtramos después
+        const controlsRes = await fetchControlInfo();
+        setControls((controlsRes.data as ControlInfo[]).filter(c => controlIds.includes(c.id)));
       } catch (e) {
         // Manejo de error
       } finally {
@@ -54,12 +65,16 @@ export default function AuditoryLogDetailPage({ params }: { params: Promise<{ id
     fetchData();
   }, [id]);
 
+  // Mapear resultados a controles
+  const controlMap = controls.reduce((acc, c) => { acc[c.id] = c; return acc; }, {} as Record<number, ControlInfo>);
   // Agrupar controles por capítulo y ordenar por idx
-  const grouped = controls.reduce((acc, control) => {
+  const grouped = results.reduce((acc, result) => {
+    const control = controlMap[result.control];
+    if (!control) return acc;
     if (!acc[control.chapter]) acc[control.chapter] = [];
-    acc[control.chapter].push(control);
+    acc[control.chapter].push({ ...control, result: result.result });
     return acc;
-  }, {} as Record<string, ControlInfo[]>);
+  }, {} as Record<string, Array<ControlInfo & { result: string }>>);
   Object.values(grouped).forEach(arr => arr.sort((a, b) => a.idx - b.idx));
 
   if (isLoading) {
@@ -69,7 +84,7 @@ export default function AuditoryLogDetailPage({ params }: { params: Promise<{ id
       </div>
     );
   }
-  if (!log) return <div className="text-white">No encontrado</div>;
+  if (!results) return <div className="text-white">No encontrado</div>;
 
   return (
     <div className="max-w-5xl mx-auto py-8 px-4">
@@ -77,23 +92,15 @@ export default function AuditoryLogDetailPage({ params }: { params: Promise<{ id
         items={[
           { label: "Dashboard", href: "/dashboard" },
           { label: "Reportes de Auditoría", href: "/dashboard/reports" },
-          { label: `Detalle #${log.id}` },
+          { label: `Detalles` },
         ]}
       />
-      <h1 className="text-2xl font-bold text-white mb-6">Detalle de Auditoría #{log.id}</h1>
-      <div className="mb-8 text-slate-300">
-        <div><b>Usuario:</b> {log.user}</div>
-        <div><b>Servidor:</b> {log.server}</div>
-        <div><b>Tipo:</b> {log.type}</div>
-        <div><b>Fecha:</b> {new Date(log.timestamp).toLocaleString()}</div>
-        <div><b>Criticidad:</b> {log.criticidad}%</div>
-      </div>
+      <h1 className="text-2xl font-bold text-white mb-6">Detalle de Auditoría</h1>
       {Object.keys(grouped).sort().map(chapter => (
         <div key={chapter} className="mb-8">
           <h2 className="text-xl font-semibold text-sky-400 mb-4">Capítulo {chapter}</h2>
           <div className="space-y-2">
             {grouped[chapter].map(control => {
-              const result = log.control_results[control.idx];
               const isOpen = expanded[`${chapter}-${control.idx}`];
               return (
                 <div key={control.idx} className="bg-slate-800 rounded-lg border border-slate-700">
@@ -105,9 +112,9 @@ export default function AuditoryLogDetailPage({ params }: { params: Promise<{ id
                       <span className="font-bold mr-2">{control.idx}.</span>
                       {control.name}
                       <span className={`ml-4 px-2 py-1 rounded text-xs font-semibold ${
-                        result === 'TRUE' ? 'bg-green-500 text-white' : result === 'FALSE' ? 'bg-red-500 text-white' : 'bg-yellow-400 text-slate-900'
+                        control.result === 'TRUE' ? 'bg-green-500 text-white' : control.result === 'FALSE' ? 'bg-red-500 text-white' : 'bg-yellow-400 text-slate-900'
                       }`}>
-                        {result}
+                        {control.result}
                       </span>
                     </span>
                     <span>{isOpen ? '▲' : '▼'}</span>

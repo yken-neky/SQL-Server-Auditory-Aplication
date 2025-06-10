@@ -14,12 +14,12 @@ from Connecting_App.permissions import HasOnServiceCookie
 import pyodbc
 
 class ControlsInformationList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated, HasOnServiceCookie]
+    permission_classes = [IsAuthenticated]
     queryset = Controls_Information.objects.all()
     serializer_class = Controls_Information_Serializer
 
 class ControlInformationDetail(generics.RetrieveAPIView):
-    permission_classes = [IsAuthenticated, HasOnServiceCookie]
+    permission_classes = [IsAuthenticated]
     queryset = Controls_Information.objects.all()
     serializer_class = Controls_Information_Serializer
 
@@ -39,7 +39,7 @@ connection_lock = Lock()
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated, IsClient, HasOnServiceCookie])
+@permission_classes([IsAuthenticated, IsClient])
 def execute_query(request):
     # Llamar a la función auxiliar para obtener la conexión a la base de datos 
     conexion_resultado = obtener_conexion_activa_db(request.user, connection_lock) 
@@ -89,7 +89,7 @@ def execute_query(request):
         audit.criticidad = round((falses / total) * 100, 2) if total > 0 else 0
         audit.save()
 
-        return Response({"status": "queries_executed", "control_results": control_results}, status=status.HTTP_200_OK)
+        return Response({"status": "queries_executed", "control_results": control_results, "audit_id": audit.id}, status=status.HTTP_200_OK)
     except Controls_Scripts.DoesNotExist:
         return Response({"status": "not_found"}, status=status.HTTP_404_NOT_FOUND)
     except pyodbc.Error as e:

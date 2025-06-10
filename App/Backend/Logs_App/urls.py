@@ -12,5 +12,6 @@ urlpatterns = [
     path('api/logs/connection_logs_details/<int:pk>/', ConnectionLogDetail.as_view(), name='connection_log_detail'),
     path('api/logs/auditory_logs_list/', AuditoryLogList.as_view(), name='auditory_log_list'),
     path('api/logs/auditory_logs_detail/<int:pk>', AuditoryLogDetail.as_view(), name='auditory_log_detail'),
+    path('api/logs/auditory_logs_results/<int:audit_id>/', AuditoryLogResultsByAudit.as_view(), name='auditory_log_results_by_audit'),
     path('api/', include(router.urls))
 ]

@@ -4,34 +4,34 @@ import { useState, useEffect } from 'react'
 import { fetchAuditoryLogListUser } from '@/lib/axios' // Asegúrate de tener este método
 import Breadcrumb from '@/components/Breadcrumb'
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 interface AuditoryLog {
   id: number
-  user: string
+  user: string | { username: string }
   type: 'Completa' | 'Parcial'
-  control_results: any
+  results?: { id: number, control: number, result: string }[]
   timestamp: string
-  server: string
+  server: string | { server: string }
   criticidad: number // porcentaje de criticidad
 }
 
 export default function ReportsPage() {
   const [reports, setReports] = useState<AuditoryLog[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchReports() {
       try {
-        const response = await fetchAuditoryLogListUser()
-        console.log(response.data)
-        setReports(response.data)
+        const response = await fetchAuditoryLogListUser();
+        setReports(response.data as AuditoryLog[]);
       } catch (error) {
         console.error('Error al cargar los reportes:', error)
       } finally {
         setIsLoading(false)
       }
     }
-
     fetchReports()
   }, [])
 
@@ -73,31 +73,36 @@ export default function ReportsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-700">
-              {reports.map((report) => (
-                <tr
-                  key={report.id}
-                  className="hover:bg-slate-700/50 transition-colors cursor-pointer"
-                  onClick={() => window.location.href = `/dashboard/reports/${report.id}`}
-                >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{report.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{report.user}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        report.type === 'Completa'
-                          ? 'bg-sky-600 text-white border border-sky-300 shadow' // azul para completa
-                          : 'bg-yellow-400 text-slate-900 border border-yellow-600' // amarillo para parcial
-                      }`}
-                    >
-                      {report.type.charAt(0).toUpperCase() + report.type.slice(1)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{report.server}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{new Date(report.timestamp).toLocaleString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{Array.isArray(report.control_results) ? report.control_results.length : Object.keys(report.control_results || {}).length}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300 font-bold">{report.criticidad}%</td>
-                </tr>
-              ))}
+              {reports.map((report) => {
+                const username = typeof report.user === 'string' ? report.user : report.user?.username;
+                const serverName = typeof report.server === 'string' ? report.server : report.server?.server;
+                const controlsCount = Array.isArray(report.results) ? report.results.length : 0;
+                return (
+                  <tr
+                    key={report.id}
+                    className="hover:bg-slate-700/50 transition-colors cursor-pointer"
+                    onClick={() => router.push(`/dashboard/reports/${report.id}`)}
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{report.id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{username}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          report.type === 'Completa'
+                            ? 'bg-sky-600 text-white border border-sky-300 shadow'
+                            : 'bg-yellow-400 text-slate-900 border border-yellow-600'
+                        }`}
+                      >
+                        {report.type.charAt(0).toUpperCase() + report.type.slice(1)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{serverName}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{new Date(report.timestamp).toLocaleString()}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{controlsCount}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300 font-bold">{report.criticidad}%</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
