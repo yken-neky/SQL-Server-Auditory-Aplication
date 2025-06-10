@@ -77,6 +77,13 @@ export default function AuditoryLogDetailPage({ params }: { params: Promise<{ id
   }, {} as Record<string, Array<ControlInfo & { result: string }>>);
   Object.values(grouped).forEach(arr => arr.sort((a, b) => a.idx - b.idx));
 
+  // Calcular resumen de resultados
+  const total = results.length;
+  const correct = results.filter(r => r.result === 'TRUE').length;
+  const incorrect = results.filter(r => r.result === 'FALSE').length;
+  const manual = results.filter(r => r.result === 'MANUAL').length;
+  const percent = (n: number) => total > 0 ? Math.round((n / total) * 100) : 0;
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[calc(100vh-5rem)]">
@@ -96,6 +103,23 @@ export default function AuditoryLogDetailPage({ params }: { params: Promise<{ id
         ]}
       />
       <h1 className="text-2xl font-bold text-white mb-6">Detalle de Auditoría</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="bg-gradient-to-br from-cyan-900 via-cyan-800 to-cyan-700 rounded-xl p-6 shadow-lg border border-cyan-700 flex flex-col items-center">
+          <span className="text-cyan-200 font-semibold">Correctos</span>
+          <span className="text-3xl font-black text-green-400">{correct}</span>
+          <span className="text-cyan-100">{percent(correct)}%</span>
+        </div>
+        <div className="bg-gradient-to-br from-rose-900 via-rose-800 to-rose-700 rounded-xl p-6 shadow-lg border border-rose-700 flex flex-col items-center">
+          <span className="text-rose-200 font-semibold">Incorrectos</span>
+          <span className="text-3xl font-black text-red-400">{incorrect}</span>
+          <span className="text-rose-100">{percent(incorrect)}%</span>
+        </div>
+        <div className="bg-gradient-to-br from-yellow-900 via-yellow-800 to-yellow-700 rounded-xl p-6 shadow-lg border border-yellow-700 flex flex-col items-center">
+          <span className="text-yellow-200 font-semibold">Manuales</span>
+          <span className="text-3xl font-black text-yellow-400">{manual}</span>
+          <span className="text-yellow-100">{percent(manual)}%</span>
+        </div>
+      </div>
       {Object.keys(grouped).sort().map(chapter => (
         <div key={chapter} className="mb-8">
           <h2 className="text-xl font-semibold text-sky-400 mb-4">Capítulo {chapter}</h2>
