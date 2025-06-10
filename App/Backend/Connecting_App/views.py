@@ -54,7 +54,7 @@ class ConnectionViewSet(viewsets.ViewSet):
         # response.set_cookie('SQL_Auditory', 'active', httponly=True)
         return response
 
-    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated, HasOnServiceCookie, IsClient])
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated, IsClient])
     def disconnect(self, request):
         user = request.user
         active_conn = ActiveConnection.objects.filter(user=user, is_connected=True).first()

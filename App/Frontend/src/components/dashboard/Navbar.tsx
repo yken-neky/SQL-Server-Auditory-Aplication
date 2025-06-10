@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
-import { logoutUser } from '@/lib/axios'
+import { logoutUser, logoutDB } from '@/lib/axios'
 import { useUser } from '@/contexts/UserContext'
 import { useDBConnection } from '@/contexts/DBConnectionContext'
 import { toast } from 'react-hot-toast'
@@ -14,7 +14,8 @@ export default function Navbar() {
   const menuRef = useRef<HTMLDivElement>(null)
   const { logout } = useAuth()
   const { user, isLoading } = useUser()
-  const { isConnected } = useDBConnection()
+  const { isConnected, setConnected } = useDBConnection()
+  const [showDBMenu, setShowDBMenu] = useState(false)
 
   // Cerrar el menú cuando se hace clic fuera de él
   useEffect(() => {
@@ -41,6 +42,17 @@ export default function Navbar() {
     }
   }
 
+  const handleDisconnectDB = async () => {
+    try {
+      await logoutDB()
+      setConnected(false)
+      toast.success('Desconectado de la base de datos')
+      setShowDBMenu(false)
+    } catch (e) {
+      toast.error('Error al desconectar de la base de datos')
+    }
+  }
+
   const fullName = user ? `${user.first_name} ${user.last_name}`.trim() || user.username : ''
 
   return (
@@ -58,7 +70,26 @@ export default function Navbar() {
             <span className="text-slate-300 flex items-center gap-2">
               {fullName}
               {isConnected && (
-                <span title="Conexión a SQL Server activa" className="inline-block w-3 h-3 rounded-full bg-green-500 border border-green-300 animate-pulse"></span>
+                <div className="relative">
+                  <span
+                    title="Conexión a SQL Server activa"
+                    className="inline-block w-3 h-3 rounded-full bg-green-500 border border-green-300 animate-pulse cursor-pointer"
+                    onClick={() => setShowDBMenu((v) => !v)}
+                  ></span>
+                  {showDBMenu && (
+                    <div className="absolute right-0 mt-2 w-82 rounded-lg bg-slate-900 border border-slate-800 shadow-lg py-1 animate-fade-in z-50">
+                      <button
+                        onClick={handleDisconnectDB}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-slate-800 transition-colors cursor-pointer"
+                      >
+                        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Desconectar de la base de datos
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </span>
           )}
